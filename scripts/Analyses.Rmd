@@ -391,6 +391,26 @@ rm(fqi, fqi_p, fqi_r, meanC, meanC_p, meanC_r)
 <div style="float: right; width: 40%;"> 
 ```{r determine quadrat size for future monitoring}
 
+data.frame(
+  Species = rep(LETTERS[1:10], each = 12), 
+  Quadrat = rep(1:12, times = 10),
+  Nest = sample(0:4, size = 120, replace= T)
+) |>
+  dplyr::group_by(Species) |> 
+  dplyr::count(Nest) |> # count how many times each species was found in a nest level
+  dplyr::group_by(Species) |>
+  dplyr::mutate(n = n/12) |> # divide the number of observations by the number of plots sampled. . 
+  filter(Nest > 0, n > 0.2 & n < 0.8) |> # we want the plants to show up in from 0.2-0.8 of nests. 
+  
+  # if we have more than one Nest size which meets the standard, than let's choose 
+  # the one closest to midpoint 0.5, allowing the plants to decrease or increase 
+  mutate(difference = if_else(n < 0.5, 0.5 - n, n - 0.5), 
+         n = round(n, digits = 2)) |>
+  slice_min(n = 1, order_by = difference, with_ties = F) |>
+  select(Species, Nest, Frequency = n) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_classic(full_width = F, html_font = "Cambria")
+  
 ```
 </div>
 
