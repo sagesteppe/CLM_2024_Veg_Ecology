@@ -1,12 +1,13 @@
 ---
 title: "A very quick introduction to vegetation assessments"
-subtitle: 'Conservation & Land Mangement Training 2024'
 author: "Reed Benkendorf, Chris Woolridge, Jacob Zeldin & Matt Evans"
 date: "June 5^th^ 2024"
 output:
   ioslides_presentation:
-    widescreen: true
+    widescreen: yes
     logo: ../images/cbg_logo.jpg
+  slidy_presentation: default
+subtitle: Conservation & Land Mangement Training 2024
 ---
 
 ```{r setup, include=FALSE}
@@ -47,23 +48,40 @@ source('functions.R') # load a few small functions for processing the data.
 
 
 ## How do we measure plant cover?
-
+<div style="float: left; width: 70%;"> 
 - Depends on vegetation type, and annual climatic variability 
 
 - Forest  
   - Line Intercept 
 - Grassland & Savannah  
-  - Line Intercept  (LI)  
-  - Line-Point Intercept (LPI)  
+  - Line Intercept  (LI) &  Line-Point Intercept (LPI)  
   - (Historic) Daubenmire  
 - Small plants!  
   - Grids with equal area cells  
   - most subjective of the methods  
   - very complicated by when sampling takes place  
+</div>
+
+<div style="float: right; width: 30%;"> 
+<center>
+```{r LPI & Line Intercept, out.width = "150px", out.height= "150px"}
+knitr::include_graphics('../images/AIM-plot.png')
+```
+
+```{r Quadrat with cells, out.width = "150px", out.height= "150px"}
+knitr::include_graphics('../images/StandardQuadrat.png')
+```
+
+```{r Daubenmire Frame, out.width = "150px", out.height= "150px"}
+knitr::include_graphics('../images/Daubenmire.png')
+```
+
+</center>
+</div> 
 
 ## How do we measure plant abundance, frequency, and density? 
 
-<div style="float: left; width: 60%;"> 
+<div style="float: left; width: 70%;"> 
 - Belt Transects (abundance)  
   - plants are very sparse - pop. census size  
   - set up around LPI transects  
@@ -74,12 +92,16 @@ source('functions.R') # load a few small functions for processing the data.
   - plants are moderately abundant - pop. census size,  spatial distribution  
 </div>
 
-<div style="float: right; width: 40%;"> 
-
-```{r, out.height='100%'}
+<div style="float: right; width: 30%;"> 
+<center>
+```{r Belt Transect, out.width = "100px", out.height= "200px"}
 knitr::include_graphics('../images/BeltTransect.png')
 ```
 
+```{r Nested Quadrat, out.width = "225px", out.height= "225px"}
+knitr::include_graphics('../images/nested.png')
+```
+</center>
 </div> 
 
 ## How do we measure diversity? 
@@ -97,11 +119,11 @@ knitr::include_graphics('../images/BeltTransect.png')
 </div>
 
 <div style="float: right; width: 40%;"> 
-
+<center>
 ```{r Modified Whittaker Plot, out.width='95%'}
 knitr::include_graphics('../images/ModifiedWhittaker.png')
 ```
-
+</center>
 </div>
 
 ## What is Floristic Quality? 
@@ -148,6 +170,32 @@ they have a high consistency of occurrence within given community types._
 
 </font> 
 
+## Calculations
+
+Mean Coefficient of Conservatism
+$$
+\overline{C} = \frac{\sum{} C_i}{S}
+$$
+<font size="3">
+<center>
+  - $C_i$ in particular $C$ is the Conservatism Value (C-Value), for each $_i$ of the $S$ at the site  
+  - $S$ is the number of species included in the calculation  
+  - $\overline{C}$ is the Mean Coefficient of Conservatism, or for short *Mean C*  
+  - $\sum{}$ is an operator, meaning that we will sum all C-Values, $C$  
+</center>
+</font>
+
+Floristic Quality Index
+$$
+FQI = \overline{C} * \sqrt{S}
+$$
+<font size="3">
+<center>
+  - $\overline{C}$ is the Mean Coefficient of Conservatism, or for short Mean C  
+  - $\sqrt{S}$ is the square root of the number of species included in the calculation  
+</center>
+</font>
+
 ## What do we mean by Species Richness? 
 
 - The number of plant taxa in an area; also referred to as gamma-diversity  
@@ -155,45 +203,6 @@ they have a high consistency of occurrence within given community types._
 - Gamma-diversity, and it's measurement, is influenced by two main traits 
   - the number of species per sub-habitats (alpha-diversity)    
   - the turnover in species between sub-habitats (beta-diversity) 
-
-## Plot Layout 
-
-- Species Richness  
-  - Rectangular plots capture more species (reviewed in Elzinga et al. 2001)  
-    - Cross more micro-habitats  
-- Species Abundance  
-  - Foliar cover / Basal Cover  
-    - How much 
-  - Indicator species, frequency of certain grass species; nested quadrats
-    - strength of frequency: unlikely to vary via climate or grazing  
-    
-```{r Create example plots, eval = F}
-
-ggplot()  + 
-  geom_sf(data = quadrat, fill = '#e66d2e') + 
-  geom_sf(data = nest4, fill = '#8cece2') + 
-  geom_sf(data = nest3, fill = '#40e0d0') + 
-  geom_sf(data = nest2, fill = '#33b3a6') + 
-  geom_sf(data = nest1, fill = '#26867c') +
-  geom_sf_label(data = labels, aes(label = labs_name)) + 
-  theme_minimal() + 
-  scale_y_continuous(
-    breaks = c(0, 0.25, 0.5, 1, 2), 
-    labels = c('0m', '0.25m', '0.50m', '1.00m', '2.00m')) + 
-  scale_x_continuous(
-    breaks= c(0, 0.25, 0.5, 1), 
-    labels = c('0m', '0.25m', '0.50m', '1.00m')) + 
-  labs(x = NULL, y = NULL)
-
-sixteenth <- 0.25*0.25
-quarter <- 0.5*0.5
-half <- 1*0.5
-full <- 1*1 
-
-
-# rm(nest1, nest2, nest3, nest4, quadrat, labels)
-```
-    
 
 ## Reading Plots  
 - Boundary Decisions  
@@ -233,23 +242,65 @@ full <- 1*1
 - Can we expect areas with similar vegetation to respond similarly to management actions? 
   - e.g. fire, grazing cattle/sheep/goats, removal of invasives? 
 
-## Do people really do this?  
+## A Usage Example  
 
-- Yes, see Benkendorf & Holsinger 2023 for a real life example  
-  - They use plot based species richness data to determine which factors most affect status of natural areas  
-  - ca. 860,000 acre area, use spatial statistics and regression techniques to identify features correlating with high FQI  
+<div style="float: left; width: 60%;"> 
+- See Benkendorf & Holsinger 2023  
+- Ca. 250 plots of opportunistic species richness data, collected over 5 years    
+- Ca. 860,000 acre area, use spatial statistics and regression techniques to identify features correlating with high FQI  
   - Decision: 
-    - Do we restore areas at less than 7,000 feet? 
-    - Or do we climate proof ourselves and focus higher?  
-  - Surprising finding
-    - Areas near human habitation doing pretty well...  
+    - Do we restore areas at less than 7,000 feet? No, unless burned.  
+</div>
+
+<div style="float: right; width: 40%;"> 
+<center> 
+```{r show UFO Plots,  out.width = "300px", out.height= "275px"}
+knitr::include_graphics('../images/FQI-plots.png')
+```
+```{r Show UFO Prediction, out.width = "300px", out.height= "275px"}
+knitr::include_graphics('../images/FQI-prediction.png')
+```
+</center>
+</div>
 
 ## Our activity for the early afternoon
 
-- Compare two different parts of McDonald Woods, Upland White Oak & Swamp White Oak  
-- 1) Determine whether they have different FQI, Mean C, and Wetland Status scores  
-- 2) Determine how well our quadrats capture the species richness   
-- 3) Are any portions of each site more similar to the portions of the opposite site?   
+<div style="float: left; width: 70%;"> 
+- Compare two different parts of McDonald Woods, Upland White Oak & Swamp White Oak 
+1) Assess how quadrats capture species richness   
+2) Do sites differ in their Mean C, FQI, or Wetland Indicator status?   
+3) Determine appropriate quadrat sizes for future monitoring  
+3) Consider similarity of microhabitats across sites  
+</div>
+
+<div style="float: right; width: 30%;"> 
+```{r Quad, out.height = '500px', out.width='375px'} 
+knitr::include_graphics('../images/FieldActivityQuad.png') 
+```
+</div>
+
+## Methods 
+
+<div style="float: left; width: 70%;"> 
+- Record all 'eudicot' plant species rooted in nest #1   
+   - Move to nest #2 and record only the species not found in nest #1  
+   - Continue to do this for all 4 nests   
+- After completing the nests, record all plant species not found in the nests, which are present in the final 1x1m square   
+- Each person should be able to read a plot once, each person should record  
+- DON'T WORRY ABOUT THE SPECIES IDs
+</div>
+
+<div style="float: right; width: 30%;"> 
+<center>
+```{r Showcase our Quadrat, out.height = '300px', out.width='250px'} 
+knitr::include_graphics('../images/FieldActivityQuad.png') 
+```
+
+```{r Example Data Entry, out.height = '200px', out.width='175px'} 
+knitr::include_graphics('../images/ExampleDataEntry.png') 
+```
+</center>
+</div>
 
 ## Analyses 
 
@@ -257,9 +308,10 @@ full <- 1*1
 - **iNEXT** (Chao et al. 2014, Hsieh et al. 2024) for rarefaction, used to assess sampling completeness.   
 - **rstatix** (Kassambara 2024) for t.test, used to determine whether differences exist between sites.  
 - **vegan** (Oksanen et al. 2024) for Non-metric multiDimensional Scaling (NMDS), are portions of sites more similar to each other 
+- FQA Values, Taft et al. 1997, downloaded from https://universalfqa.org/ which may have FQA values for your area too! 
 
 ```{r Prep data for analyses}
-
+cvals <- read.csv('../data/Taft1997FQA_Values.csv', skip = 11)
 ```
 
 ## Analysis 1 - Are we capturing a representative amount of the species diversity? 
@@ -319,7 +371,6 @@ fqi_r <- wilcox_effsize(tg, len ~ dose, paired = FALSE)
 
 meanC_p <- wilcox_test(tg, len ~ dose, paired = FALSE)
 meanC_r <- wilcox_effsize(tg, len ~ dose, paired = FALSE)
-
 
 fqi <- ggplot(tg, aes(x = dose, y = len, fill = dose)) + 
   geom_boxplot(notch = TRUE) + 

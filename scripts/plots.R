@@ -103,11 +103,48 @@ nested <- ggplot()  +
   scale_x_continuous(
     breaks= c(0, 0.25, 0.5, 1), 
     labels = c('0m', '0.25m', '0.50m', '1.0m')) + 
-  labs(x = NULL, y = NULL, title = 'Nested Quadrats')
+  labs(x = NULL, y = NULL, title = 'Nested Quadrats') + 
+  theme(
+    plot.title = element_text(hjust = 0.5),
+  ) 
+
 
 ggsave('../images/nested.png')
-rm(nest1, nest2, nest3, nest4, quadrat, labels, nested)
 
+################################################################################
+################                OUR QUADRAT                  ###################
+################################################################################
+
+richness_lab <- data.frame(
+  x = c(0.5), 
+  y = c(1.5),
+  labs_name = c('Species\nRichness')
+) |> 
+  sf::st_as_sf(coords = c(x = 'x', y = 'y'))
+
+ggplot()  + 
+  geom_sf(data = quadrat, fill = '#e66d2e') + 
+  geom_sf(data = nest4, fill = '#8cece2') + 
+  geom_sf(data = nest3, fill = '#40e0d0') + 
+  geom_sf(data = nest2, fill = '#33b3a6') + 
+  geom_sf(data = nest1, fill = '#26867c') +
+  geom_sf_label(data = labels, aes(label = labs_name)) + 
+  geom_sf_label(data = richness_lab, aes(label = labs_name)) + 
+  theme_minimal() + 
+  scale_y_continuous(
+    breaks = c(0, 0.25, 0.5, 1, 2), 
+    labels = c('0m', '0.25m', '0.50m', '1.00m', '2.00m')) + 
+  scale_x_continuous(
+    breaks= c(0, 0.25, 0.5, 1), 
+    labels = c('0m', '0.25m', '0.50m', '1.00m')) + 
+  labs(x = NULL, y = NULL, title = 'Quadrat for\nField Activity') + 
+  theme(
+    plot.title = element_text(hjust = 0.5),
+  ) 
+
+ggsave('../images/FieldActivityQuad.png', width = 4, height = 4.5, units = 'in')
+
+rm(nest1, nest2, nest3, nest4, quadrat, labels, nested, richness_lab)
 ################################################################################
 ##############           create typical cover plot              ################
 ################################################################################
