@@ -39,15 +39,15 @@ source('functions.R') # load a few small functions for processing the data.
 
 ## What variables are typically monitored? 
 
--  **Absolute & Relative Cover** *How much of an area has vegetation? How is cover distributed across species and functional groups?*  
+-  **Absolute & Relative Cover** *How much of an area has vegetation? How is this cover composed by species and functional groups?*  
   - preventing erosion, characterizing habitat.   
 - **Abundance, Frequency, Density**  *Are individual plants becoming patchier in areas? Is the population declining?*  
   - Are actions too concentrated to microsites? Is a valuable resource declining?  
-- **Diversity** *How are species in an area distributed? Is an area down to only a few species?*  
+- **Diversity** *How many species are there? How are their abundances distributed? Is an area down to only a few species?*  
   - Overall ecosystem integrity, assessing conservation priorities.   
 
 
-## How do we measure plant cover?
+## How do we measure plant absolute cover?
 <div style="float: left; width: 70%;"> 
 - Depends on vegetation type, and annual climatic variability 
 
@@ -59,7 +59,7 @@ source('functions.R') # load a few small functions for processing the data.
 - Small plants!  
   - Grids with equal area cells  
   - most subjective of the methods  
-  - very complicated by when sampling takes place  
+  - complicated by time of sampling    
 </div>
 
 <div style="float: right; width: 30%;"> 
@@ -68,12 +68,12 @@ source('functions.R') # load a few small functions for processing the data.
 knitr::include_graphics('../images/AIM-plot.png')
 ```
 
-```{r Quadrat with cells, out.width = "150px", out.height= "150px"}
-knitr::include_graphics('../images/StandardQuadrat.png')
-```
-
 ```{r Daubenmire Frame, out.width = "150px", out.height= "150px"}
 knitr::include_graphics('../images/Daubenmire.png')
+```
+
+```{r Quadrat with cells, out.width = "150px", out.height= "150px"}
+knitr::include_graphics('../images/StandardQuadrat.png')
 ```
 
 </center>
@@ -198,15 +198,17 @@ $$
 
 ## What do we mean by Species Richness? 
 
-- The number of plant taxa in an area; also referred to as gamma-diversity  
-- Measuring it can be difficult, as many plants are locally rare  
-- Gamma-diversity, and it's measurement, is influenced by two main traits 
-  - the number of species per sub-habitats (alpha-diversity)    
-  - the turnover in species between sub-habitats (beta-diversity) 
+- The number of plant taxa in an area; also referred to as $\gamma-\text{diversity}$  
+- Measuring it can be difficult (time intensive), as many plants are locally rare  
+- Progress towards characterizing it can be achieved via rarefaction   
+- $\gamma-\text{diversity}$ , and it's measurement, is influenced by two main traits 
+  - the number of species per sub-habitats ($\alpha-\text{diversity}$)    
+  - the turnover in species between sub-habitats ($\beta-\text{diversity}$) 
 
 ## Reading Plots  
+<div style="float: left; width: 70%;"> 
 - Boundary Decisions  
-  - Are plants rooted?  
+  - Are plants rooted in the plot? 
   - Which side of the plots are plant rooted in?  
 - Order to reading?   
   - Nested quadrats go from smallest to largest plot  
@@ -215,32 +217,83 @@ $$
 - Avoiding double counting  
   - search methodically following a single direction  
   - Avoid trampling  
+- Search in 1/2m wide swaths  
+</div> 
+
+<div style="float: right; width: 30%;"> 
+<font size="4">
+```{r Boundary Decisions, out.width = "350px", out.height= "350px", fig.cap='Colored areas are "In" a plot.'}
+knitr::include_graphics('../images/Nested-inOut.png')
+```
+</font>
+</div>
+<center>
+
+## Management Decisions - Species Cover 
+
+<div style="float: left; width: 60%;"> 
+- Cover of species naturally ebb and flow  
+- Certain management actions can increase cover of some species, while vastly decreasing cover of others  
+- Many of the decreasing species may be important for wildlife, or ecosystem function (e.g. water retention, soil stability)  
+</div>
+
+<div style="float: right; width: 40%;"> 
+<font size="4">
+```{r Cattle Movement, out.width = "400px", out.height= "350px", fig.cap='Rotating cattle near Wisdom MT. *Agricultural Funders News*'}
+knitr::include_graphics('../images/AgriculturalFunderNews-WisdomMT.jpeg')
+```
+</font>
+</div>
+<center>
+
+## Management Decisions - Vegetation Similarity 
+
+<div style="float: left; width: 70%;"> 
+- If we want to *restore* an area, what is our target?  
+  - Example: We may want X% absolute cover of broad leaved shrubs w/ < X% relative cover of species Y  
+  - But *where* do we get these standards from?  
+- Reference site, an area with similar soils & climate to our site   
+  - altered site should be able to produce a veg community similar to the reference   
+- Can we expect areas with similar vegetation to respond similarly to management actions?  
+  - e.g. fire, grazing cattle/sheep/goats, removal of invasives?  
+  </div> 
+  
+<div style="float: right; width: 30%;"> 
+<font size="4">
+```{r Lanphere Dunes, out.width = "300px", out.height= "200px", fig.cap='Lanphere Dunes Preserve CA. Reference Site for Coastal backdunes in early seral state'}
+knitr::include_graphics('../images/Lanphere.jpg')
+```
+</font>
+</div>
+<center>
 
 ## Management Decisions - Species Richness
 
 - Ecosystem resilience often found to relate to the number of species in an area  
   - Loss of species may allow proliferation of invasive species  
+- $\alpha-\text{diversity}$ let's us know whether we have a good representation of native species at site  
+- $\beta-\text{diversity}$ let's us know that the site is not becoming more homogenous, i.e. breaking down  
+- $\gamma-\text{diversity}$ let's us know species can recruit from local areas back to more disturbed areas  
 
 ## Management Decisions - FQA  
 
+<div style="float: left; width: 60%;"> 
 - Should areas with more remnant species be prioritized for active management? *and why* 
   - Some species cannot be 'added' back in via restoration  
   - These areas maybe managed to reduce further anthropogenic impacts, e.g. invasive removal, disallow certain recreation activities. 
   - Some areas with higher C-values likely to still harbor rare-species, impetus to survey. 
 
 - Use Mean C, or FQI to detect these areas.  
+</div>
 
-## Management Decisions - Species Cover 
-
-- Cover of species naturally ebb and flow  
-- Certain management actions can increase cover of some species, while vastly decreasing cover of others  
-- Many of the decreasing species may be important for wildlife, or ecosystem function (e.g. water retention, soil stability)  
-
-## Management Decisions - Vegetation Similarity 
-
-- If we want to *restore* an area, what target area should we use to guide our decisions?  
-- Can we expect areas with similar vegetation to respond similarly to management actions? 
-  - e.g. fire, grazing cattle/sheep/goats, removal of invasives? 
+<div style="float: right; width: 40%;"> 
+<font size="4">
+```{r Spray Weeds, out.width = "400px", out.height= "350px", fig.cap='Spraying Weeds Kenai Fjords AK *National Park Service*'}
+knitr::include_graphics('../images/NPS_WeedTreatment.jpg')
+```
+</font>
+</div>
+<center>
 
 ## A Usage Example  
 
@@ -431,7 +484,7 @@ rm(fqi, fqi_p, fqi_r, meanC, meanC_p, meanC_r)
 
 ## Analysis 3 - What Quadrat size can we use to determine frequency of indicator species? 
 
-<div style="float: left; width: 60%;"> 
+<div style="float: left; width: 70%;"> 
 - It can be difficult to determine the appropriate plot size for monitoring species  
 - Nests allow us to try different options readily  
 - For expedited monitoring carried out across large domains, finding an optimal size is important  
@@ -439,7 +492,7 @@ rm(fqi, fqi_p, fqi_r, meanC, meanC_p, meanC_r)
 - our data are pilot data for future monitoring  
 </div> 
 
-<div style="float: right; width: 40%;"> 
+<div style="float: right; width: 30%;"> 
 ```{r determine quadrat size for future monitoring}
 
 data.frame(
@@ -467,7 +520,7 @@ data.frame(
 
 ## Analysis 4 - Are certain microhabits more similar *across* than between sites? 
 
-<div style="float: left; width: 60%;"> 
+<div style="float: left; width: 70%;"> 
 - Some plots may have more similarities to plots at the other site  
 - This may indicate each site has pockets in similar states  
 </div>
@@ -508,7 +561,7 @@ df$adjusted <- jitter(
 
 ```
 
-<div style="float: right; width: 40%;"> 
+<div style="float: right; width: 30%;"> 
 <br>
 ```{r Are the plots more similar to each other, out.width='90%'}
 community_matrix <- matrix(
