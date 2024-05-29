@@ -415,14 +415,16 @@ p <- ggplot(species, aes(fill = taxon, color = taxon, shape = taxon, x = x, y = 
   labs(x = NULL, y = NULL) + 
   theme(
     plot.title = element_text(hjust = 0.5), 
-    legend.title = element_text(hjust = 0.5), 
+    legend.title = element_text(hjust = 0.5),
+    legend.direction ="horizontal"
   ) + 
-  guides(fill = guide_legend(ncol = 3))
+  guides(
+    fill = guide_legend(ncol = 3),
+    )
 
 legend <- cowplot::get_legend(p)
 plot(legend)
 
-unique(as.character(unique(species$taxon)))
 
 site_a <- filter(species, 
                  !taxon %in% c("Qualitas interior",  "Glomeratus sparsum", 
@@ -470,7 +472,8 @@ site_c <- filter(species,
 
 plot_c <- ggplot(site_c) +
   
-  geom_jitter(aes(fill = taxon, color = taxon, shape = taxon, x = x, y = y), size = 2) +
+  geom_jitter(
+    aes(fill = taxon, color = taxon, shape = taxon, x = x, y = y), size = 2) +
   scale_shape_manual(values = shapes, drop = FALSE) + 
   scale_fill_manual(values = dark8, drop = FALSE) + 
   scale_color_manual(values = dark8, drop = FALSE) + 
@@ -486,13 +489,15 @@ plot_c <- ggplot(site_c) +
     legend.position = 'none'
   )
 
-plot_row <- plot_grid(plot_a, plot_b, plot_c, ncol = 3)
+plot_row <- plot_grid(plot_a, plot_b, plot_c, ncol = 3)s
+plot_row <- plot_grid(plot_row, legend, ncol = 1, rel_heights = c(1, 0.2))
 
 spp_by_site <- bind_rows(
   cbind(site_a, Site = 'A'), cbind(site_b, Site = 'B'), cbind(site_c, Site = 'C')
 ) %>% 
   distinct(Site, taxon)
 
+rm(site_a, site_b, site_c, dark8, shapes)
 
 title <- ggdraw() +  # create a shared title for the plot with three Sites. 
   draw_label(
@@ -515,15 +520,31 @@ plot_grid(
   rel_heights = c(0.1, 1)
 )
 
+rm(dark8, shapes, plot_a, plot_b, plot_c)
 
+
+##### calculate the beta-diversity comparisions between the sites ## 
 spp_by_site <- bind_rows(
   cbind(site_a, Site = 'A'), cbind(site_b, Site = 'B'), cbind(site_c, Site = 'C')
 ) %>% 
-  distinct(Site, taxon)
+  distinct(Site, taxon) %>% 
+  mutate(Values = 1) %>% 
+  pivot_wider(names_from = taxon, values_from = Values) %>% 
+  column_to_rownames('Site') 
 
+spp_by_site <- apply(spp_by_site, MARGIN = 2, FUN = function(x){ifelse(is.na(x), 0, 1)})
 
-plot(plot_c)
 rm(dark8, shapes)
 
-library(vegan)
-?betadiver()
+beta_d_results <- vegan::betadiver(spp_by_site, 'w')
+
+beta_distances <- data.frame(
+  row.names = c('B', 'C'), 
+  A = c(0.777, 0.4), 
+  B = c('', 0.2727)
+)
+
+##########
+
+beta_d_tab <- gridExtra::tableGrob(beta_distances) 
+plot(beta_d_tab)
