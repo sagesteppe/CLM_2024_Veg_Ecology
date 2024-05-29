@@ -1,6 +1,8 @@
 library(tidyverse)
 library(sf)
 library(patchwork)
+library(RColorBrewer)
+library(cowplot)
 setwd('~/Documents/assoRted/CLM_2024_Veg_Ecology/scripts')
 
 ################################################################################
@@ -303,3 +305,225 @@ ggplot() +
 ggsave('../images/BeltTransect.png')
 
 rm(transect_center, belt)
+
+
+
+################################################################################
+###################               DIVERSITY               ######################
+################################################################################
+
+
+########### clumped distribution ########
+
+## very clumped
+very_clumped <- data.frame(
+  x = rnorm(n = 10, mean = 15, sd = 5),
+  y = rnorm(n = 10, mean = 25, sd = 5), 
+  taxon = 'Glomeratus ipsum' 
+)
+
+# sparsely clumped 
+sparsely_clumped <- data.frame(
+  x = rnorm(n = 10, mean = 75, sd = 10),
+  y = rnorm(n = 10, mean = 85, sd = 5), 
+  taxon = 'Glomeratus sparsum' 
+)
+
+# several clumps  
+several_clumps <- data.frame(
+  x = c( 
+    rnorm(n = 10, mean = 20, sd = 15),
+    rnorm(n = 5, mean = 40, sd = 5), 
+    rnorm(n = 10, mean = 80, sd = 5)
+  ), 
+  y = c(
+    rnorm(n = 10, mean = 85, sd = 5), 
+    rnorm(n = 5, mean = 40, sd = 5), 
+    rnorm(n = 10, mean = 20, sd = 5)
+  ), 
+  taxon = 'Glomeratus multi' 
+)
+
+
+############# regularly dispersed plant species #########################
+
+######### abundant #########3
+reg_abundant <- expand.grid(
+  x = seq(from = 1, to = 100, by = 12), 
+  y = seq(from = 1, to = 100, by = 12),
+  taxon = 'Regularis abundat'
+) 
+reg_abundant[,1:2] <- apply(reg_abundant[,1:2], MARGIN = 2, FUN = jitter, amount = 2)
+
+
+##### not abundant  #########3
+reg_not_ab <- expand.grid(
+  x = seq(from = 5, to = 100, by = 27), 
+  y = seq(from = 5, to = 100, by = 27),
+  taxon = 'Regularis sparsum'
+) 
+reg_not_ab[,1:2] <- apply(reg_not_ab[,1:2], MARGIN = 2, FUN = jitter, amount = 5)
+
+
+### species restricted to remnant habitat in the center of the site 
+interior <- data.frame(
+  x = rnorm(n = 10, mean = 50, sd = 15),
+  y = rnorm(n = 10, mean = 50, sd = 15), 
+  taxon = 'Qualitas interior'
+)
+
+
+### randomly distributed 
+random <- data.frame(
+  round(randu[sample(1:400, size = 15),1:2] * 100),
+  taxon = 'Qualitas rarus'
+)
+
+edge <- data.frame(
+  x = ceiling(dpois(5:30, lambda = 10)  * 100),
+  y = sample(1:100, size = 26), 
+  taxon = 'Qualitus latus'
+)
+plot(x = edge$x, y = edge$y, xlim = c(0, 100))
+
+# put them together
+species <- rbind(reg_abundant, reg_not_ab, several_clumps, sparsely_clumped, 
+               very_clumped, interior, random, edge) 
+
+rm(reg_abundant, reg_not_ab, several_clumps, sparsely_clumped, 
+   very_clumped, interior, random, edge)
+
+shapes <- setNames(
+  c(21, 21, 22, 22, 22, 23, 23, 23), 
+  as.character(unique(species$taxon))
+)
+dark8 <- setNames(
+  brewer.pal(n = 8, 'Dark2'), 
+  as.character(unique(species$taxon))
+)
+
+## create a first site with 4 species
+
+
+# legend here. 
+p <- ggplot(species, aes(fill = taxon, color = taxon, shape = taxon, x = x, y = y), size = 2) + 
+  geom_jitter() + 
+  scale_shape_manual(values = shapes, drop = FALSE) + 
+  scale_fill_manual(values = dark8, drop = FALSE) + 
+  scale_color_manual(values = dark8, drop = FALSE) + 
+  theme_minimal() + 
+  labs(x = NULL, y = NULL) + 
+  theme(
+    plot.title = element_text(hjust = 0.5), 
+    legend.title = element_text(hjust = 0.5), 
+  ) + 
+  guides(fill = guide_legend(ncol = 3))
+
+legend <- cowplot::get_legend(p)
+plot(legend)
+
+unique(as.character(unique(species$taxon)))
+
+site_a <- filter(species, 
+                 !taxon %in% c("Qualitas interior",  "Glomeratus sparsum", 
+                                       "Qualitas rarus", "Regularis sparsum"))
+plot_a <- ggplot(site_a) + 
+  geom_jitter(aes(fill = taxon, color = taxon, shape = taxon, x = x, y = y), size = 2) +
+  scale_shape_manual(values = shapes, drop = FALSE) + 
+  scale_fill_manual(values = dark8, drop = FALSE) + 
+  scale_color_manual(values = dark8, drop = FALSE) + 
+  
+  theme_minimal() + 
+  labs(
+    x = NULL, 
+    y = NULL, 
+    title = 'Site A', 
+    subtitle = paste0('\u03b1 = ', length(unique(site_a$taxon)))) + 
+  theme(
+    plot.title = element_text(hjust = 0.5), 
+    legend.position = 'none'
+  )
+
+## now create a third site 
+site_b <- filter(species, 
+                 !taxon %in% c('Glomeratus multi', 'Glomeratus ipsum', 'Qualitus latus'))
+
+plot_b <- ggplot(site_b) + 
+  geom_jitter(aes(fill = taxon, color = taxon, shape = taxon, x = x, y = y), size = 2) +
+  scale_shape_manual(values = shapes, drop = FALSE) + 
+  scale_fill_manual(values = dark8, drop = FALSE) + 
+  scale_color_manual(values = dark8, drop = FALSE) + 
+  
+  theme_minimal() + 
+  labs(
+    x = NULL, 
+    y = NULL, 
+    title = 'Site B', 
+    subtitle = paste0('\u03b1 = ', length(unique(site_b$taxon)))) + 
+  theme(
+    plot.title = element_text(hjust = 0.5), 
+    legend.position = 'none'
+  )
+
+site_c <- filter(species, 
+                 !taxon %in% c('Glomeratus ipsum', 'Regularis sparsum'))
+
+plot_c <- ggplot(site_c) +
+  
+  geom_jitter(aes(fill = taxon, color = taxon, shape = taxon, x = x, y = y), size = 2) +
+  scale_shape_manual(values = shapes, drop = FALSE) + 
+  scale_fill_manual(values = dark8, drop = FALSE) + 
+  scale_color_manual(values = dark8, drop = FALSE) + 
+  
+  theme_minimal() + 
+  labs(
+    x = NULL, 
+    y = NULL, 
+    title = 'Site B', 
+    subtitle = paste0('\u03b1 = ', length(unique(site_c$taxon))))  + 
+  theme(
+    plot.title = element_text(hjust = 0.5), 
+    legend.position = 'none'
+  )
+
+plot_row <- plot_grid(plot_a, plot_b, plot_c, ncol = 3)
+
+spp_by_site <- bind_rows(
+  cbind(site_a, Site = 'A'), cbind(site_b, Site = 'B'), cbind(site_c, Site = 'C')
+) %>% 
+  distinct(Site, taxon)
+
+
+title <- ggdraw() +  # create a shared title for the plot with three Sites. 
+  draw_label(
+    paste0(
+      "\u03b3-Diversity (", 
+      length(unique(spp_by_site$taxon)) ,
+      ") of an area with three major sites"),
+    fontface = 'bold',
+    x = 0,
+    hjust = 0
+  ) +
+  theme( # add margin on the left of the drawing canvas,
+    # so title is aligned with left edge of first plot
+    plot.margin = margin(0, 0, 0, 7)
+  )
+
+plot_grid(
+  title, plot_row,
+  ncol = 1,
+  rel_heights = c(0.1, 1)
+)
+
+
+spp_by_site <- bind_rows(
+  cbind(site_a, Site = 'A'), cbind(site_b, Site = 'B'), cbind(site_c, Site = 'C')
+) %>% 
+  distinct(Site, taxon)
+
+
+plot(plot_c)
+rm(dark8, shapes)
+
+library(vegan)
+?betadiver()

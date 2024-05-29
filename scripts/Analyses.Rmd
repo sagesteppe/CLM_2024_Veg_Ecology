@@ -32,7 +32,7 @@ source('functions.R') # load a few small functions for processing the data.
 ## Why do we monitor vegetation?  
 
 - Many plant species respond quickly to land management actions   
-- Serve as indicators of whether an area is moving in a more-or-less desirable direction 
+- Indicators of whether an area is moving in a more-or-less desirable direction 
 - Inform us whether a management action needs to be abandoned, increased, or maintained  
 - **Serve as the main constituent of habitat quality**  
 - Note we will **not** cover demography today. 
@@ -111,7 +111,7 @@ knitr::include_graphics('../images/nested.png')
 - Quadrats   
   - Generally *much* larger than in other types of sampling  
   - Fewer replicates  
-- Need to be orientated to cross along environmental gradients   
+- Oriented to follow environmental gradients   
 - The gold standard: Modified Whittaker
   - MW has two less intensive follow-up variants, the 'Intensive' and 'Extensive' 
   - I&E plots can characterize microhabitats (use determined via rarefaction)  
@@ -126,7 +126,7 @@ knitr::include_graphics('../images/ModifiedWhittaker.png')
 </center>
 </div>
 
-## What is Floristic Quality? 
+## What is a Floristic Quality Assessment? 
 <font size="4">
 
 > _'... tolerance of anthropogenic disturbance and exclusivity to remnant habitats are the only validated criteria for deﬁning FQA.'_
@@ -138,6 +138,7 @@ knitr::include_graphics('../images/ModifiedWhittaker.png')
 
 </font>
 
+- Different species and sites have different tolerances to recovery after anthropogenic disturbances  
 - Useful for identifying high-quality remnant habitat  
 - Essentially a format for prioritizing land management decisions, especially active management 
 - We know we cannot restore everywhere, preventing degradation is key, we can shift certain activities to areas of less conservation values  
@@ -204,6 +205,13 @@ $$
 - $\gamma-\text{diversity}$ , and it's measurement, is influenced by two main traits 
   - the number of species per sub-habitats ($\alpha-\text{diversity}$)    
   - the turnover in species between sub-habitats ($\beta-\text{diversity}$) 
+  
+```{r Create Diversity Representation}
+
+21:25 # all allow for fill 
+
+```
+  
 
 ## Reading Plots  
 <div style="float: left; width: 70%;"> 
