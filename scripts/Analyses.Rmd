@@ -63,7 +63,7 @@ source('functions.R') # load a few small functions for processing the data.
 </div>
 
 <div style="float: right; width: 30%;"> 
-<center>
+<div class="centered">
 ```{r LPI & Line Intercept, out.width = "150px", out.height= "150px"}
 knitr::include_graphics('../images/AIM-plot.png')
 ```
@@ -76,7 +76,7 @@ knitr::include_graphics('../images/Daubenmire.png')
 knitr::include_graphics('../images/StandardQuadrat.png')
 ```
 
-</center>
+</div>
 </div> 
 
 ## How do we measure plant abundance, frequency, and density? 
@@ -93,7 +93,7 @@ knitr::include_graphics('../images/StandardQuadrat.png')
 </div>
 
 <div style="float: right; width: 30%;"> 
-<center>
+<div class="centered">
 ```{r Belt Transect, out.width = "100px", out.height= "200px"}
 knitr::include_graphics('../images/BeltTransect.png')
 ```
@@ -101,7 +101,7 @@ knitr::include_graphics('../images/BeltTransect.png')
 ```{r Nested Quadrat, out.width = "225px", out.height= "225px"}
 knitr::include_graphics('../images/nested.png')
 ```
-</center>
+</div>
 </div> 
 
 ## How do we measure diversity? 
@@ -118,7 +118,7 @@ knitr::include_graphics('../images/nested.png')
   - takes a long time... 
 </div>
 
-<div style="float: right; width: 40%;"> 
+<div style="float: right; width: 40%;" class = 'centered'> 
 <center>
 ```{r Modified Whittaker Plot, out.width='95%'}
 knitr::include_graphics('../images/ModifiedWhittaker.png')
@@ -197,21 +197,26 @@ $$
 </center>
 </font>
 
-## What do we mean by Species Richness? 
+## What do we mean by Species Richness?   
 
+<div style="float: left; width: 50%;"> 
 - The number of plant taxa in an area; also referred to as $\gamma-\text{diversity}$  
-- Measuring it can be difficult (time intensive), as many plants are locally rare  
-- Progress towards characterizing it can be achieved via rarefaction   
-- $\gamma-\text{diversity}$ , and it's measurement, is influenced by two main traits 
-  - the number of species per sub-habitats ($\alpha-\text{diversity}$)    
-  - the turnover in species between sub-habitats ($\beta-\text{diversity}$) 
-  
-```{r Create Diversity Representation}
+- Measuring it is time intensive, as many plants are locally rare  
+- Understanding progress of sampling via rarefaction   
+</div>
 
-21:25 # all allow for fill 
+<div style="float: right; width: 50%;"> 
+- $\gamma-\text{diversity}$, and it's measurement, is influenced by:   
+  - number of species per habitat ($\alpha-\text{diversity}$)    
+  - turnover in species between habitats ($\beta-\text{diversity}$) 
+</div>
+<div style="clear: both;"></div>
 
+<div class="centered">
+```{r Create Diversity Representation, out.width = "700px", out.height= "250px"}
+knitr::include_graphics('../images/Diversity_Plot.png')
 ```
-  
+</div>
 
 ## Reading Plots  
 <div style="float: left; width: 70%;"> 

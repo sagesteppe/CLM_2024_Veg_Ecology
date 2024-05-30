@@ -423,8 +423,7 @@ p <- ggplot(species, aes(fill = taxon, color = taxon, shape = taxon, x = x, y = 
     )
 
 legend <- cowplot::get_legend(p)
-plot(legend)
-
+rm(p)
 
 site_a <- filter(species, 
                  !taxon %in% c("Qualitas interior",  "Glomeratus sparsum", 
@@ -467,8 +466,7 @@ plot_b <- ggplot(site_b) +
     legend.position = 'none'
   )
 
-site_c <- filter(species, 
-                 !taxon %in% c('Glomeratus ipsum', 'Regularis sparsum'))
+site_c <- filter(species, !taxon %in% c('Glomeratus ipsum', 'Regularis sparsum'))
 
 plot_c <- ggplot(site_c) +
   
@@ -482,43 +480,43 @@ plot_c <- ggplot(site_c) +
   labs(
     x = NULL, 
     y = NULL, 
-    title = 'Site B', 
+    title = 'Site C', 
     subtitle = paste0('\u03b1 = ', length(unique(site_c$taxon))))  + 
   theme(
     plot.title = element_text(hjust = 0.5), 
     legend.position = 'none'
   )
 
-plot_row <- plot_grid(plot_a, plot_b, plot_c, ncol = 3)s
+plot_row <- plot_grid(plot_a, plot_b, plot_c, ncol = 3)
 plot_row <- plot_grid(plot_row, legend, ncol = 1, rel_heights = c(1, 0.2))
 
 spp_by_site <- bind_rows(
-  cbind(site_a, Site = 'A'), cbind(site_b, Site = 'B'), cbind(site_c, Site = 'C')
+  cbind(site_a, Site = 'A'),
+  cbind(site_b, Site = 'B'), 
+  cbind(site_c, Site = 'C')
 ) %>% 
   distinct(Site, taxon)
-
-rm(site_a, site_b, site_c, dark8, shapes)
 
 title <- ggdraw() +  # create a shared title for the plot with three Sites. 
   draw_label(
     paste0(
-      "\u03b3-Diversity (", 
+      "\u03b3-diversity (", 
       length(unique(spp_by_site$taxon)) ,
-      ") of an area with three major sites"),
+      " taxa) of an area with three major sites"),
     fontface = 'bold',
     x = 0,
-    hjust = 0
+    hjust = 0.0
   ) +
   theme( # add margin on the left of the drawing canvas,
     # so title is aligned with left edge of first plot
     plot.margin = margin(0, 0, 0, 7)
   )
 
-plot_grid(
+diversity_plot <- plot_grid(
   title, plot_row,
   ncol = 1,
   rel_heights = c(0.1, 1)
-)
+) 
 
 rm(dark8, shapes, plot_a, plot_b, plot_c)
 
@@ -544,7 +542,18 @@ beta_distances <- data.frame(
   B = c('', 0.2727)
 )
 
-##########
-
+########## create the beta diversity table for site wise comparisons 
 beta_d_tab <- gridExtra::tableGrob(beta_distances) 
-plot(beta_d_tab)
+
+DiversityGrid <- plot_grid(
+  diversity_plot, beta_d_tab,
+  ncol = 2,
+  rel_widths = c(1, 0.3)
+)
+
+
+save_plot(filename = '../images/Diversity_Plot.png', plot = DiversityGrid, 
+          base_width = 8)
+
+rm(site_a, site_b, site_c, dark8, shapes, legend, beta_d_tab, beta_distances,
+   plot_row, spp_by_site, beta_d_results, title, dark8, shapes)
