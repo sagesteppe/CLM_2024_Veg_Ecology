@@ -347,7 +347,7 @@ several_clumps <- data.frame(
 
 ############# regularly dispersed plant species #########################
 
-######### abundant #########3
+######### abundant ##########
 reg_abundant <- expand.grid(
   x = seq(from = 1, to = 100, by = 12), 
   y = seq(from = 1, to = 100, by = 12),
@@ -491,9 +491,9 @@ plot_row <- plot_grid(plot_a, plot_b, plot_c, ncol = 3)
 plot_row <- plot_grid(plot_row, legend, ncol = 1, rel_heights = c(1, 0.2))
 
 spp_by_site <- bind_rows(
-  cbind(site_a, Site = 'A'),
+  cbind(site_a, Site = 'A'), 
   cbind(site_b, Site = 'B'), 
-  cbind(site_c, Site = 'C')
+  cbind(site_c, Site = 'C') 
 ) %>% 
   distinct(Site, taxon)
 
@@ -557,3 +557,144 @@ save_plot(filename = '../images/Diversity_Plot.png', plot = DiversityGrid,
 
 rm(site_a, site_b, site_c, dark8, shapes, legend, beta_d_tab, beta_distances,
    plot_row, spp_by_site, beta_d_results, title, dark8, shapes)
+
+
+################################################################################
+##############                  artificial landscape        ####################
+################################################################################
+
+lacustrine <- data.frame(
+  x = round(rnorm(n = 20, mean = 15, sd = 8)),
+  y = round(rnorm(n = 20, mean = 25, sd = 8)) 
+) %>% 
+  st_as_sf(coords = c('x', 'y')) %>% 
+  st_union() %>% 
+  st_convex_hull()
+
+rivers <- data.frame(
+  x = c(15, 12, 15, 11, 17, 20, 13, 
+        25, 40, 45, 58, 68, 75, 85),
+  y = c(25, 40, 45, 58, 68, 75, 85, 
+        15, 12, 15, 11, 17, 20, 13)
+) %>% 
+  sf::st_as_sf(coords = c('x', 'y'))
+  
+# use spdep to identify nearest neighbor, draw lines between these neighbors, 
+spdep::knearneigh(rivers, k = 2)  
+
+# now smooth the lines using rmapshaper so that they look more normal. 
+
+ggplot(lacustrine) + 
+  geom_sf() + 
+  geom_sf(data = rivers) + 
+  coord_sf(xlim = c(0, 100), ylim = c(0, 100)) 
+
+## now we generate two hills, in the grid, these start where the rivers start. ##
+## we'll use these values as geom_tile values
+
+hills <- data.frame(
+  x = c(20, 14, 10, 75, 85, 87, 95, 40, 30),
+  y = c(95, 85, 90, 10, 10, 30, 15, 80, 40), 
+  z = c(20, 21, 20, 18, 17,  16, 15,  0,  0)
+) 
+
+ggplot() + 
+  geom_raster(data = hills, aes(x = x, y = y, fill = z), interpolate = T) +
+  geom_sf(data = lacustrine, fill = 'darkblue') + 
+  geom_sf(data = rivers, color = 'darkblue') + 
+  coord_sf(xlim = c(0, 100), ylim = c(0, 100)) +
+  geom_point(data = very_clumped, aes(x = x, y = y), color = 'green') + 
+  
+  # change labels from 0-100 to 0-1000 to make scenario/ plot sizes more plausible 
+  theme_minimal() 
+
+
+### plants around wetland
+banks <- data.frame( 
+  x = rnorm(n = 30, mean = 15, sd = 12), 
+  y = rnorm(n = 30, mean = 25, sd = 12), 
+  taxon = 'wetland' 
+) |> 
+  st_as_sf(coords = c(x = 'x', y = 'y'))
+
+
+
+## use the edge species again 
+edge <- data.frame(
+  x = ceiling(dpois(5:30, lambda = 10) * 100),
+  y = sample(1:100, size = 26), 
+  taxon = 'Qualitus latus'
+)
+
+# get it a bit closer to the river  
+edge <- edge %>% 
+  rowwise() %>% 
+  mutate(x = if_else(x < 10, x + sample(5:10, 1), x))
+plot(x = edge$x, y = edge$y, xlim = c(0, 100)) 
+
+# now flip it to the other side 
+edge_flipped <- st_as_sf(edge, coords = c('y', 'x'))
+edge <- st_as_sf(edge, coords = c('x', 'y'))
+
+
+########### add a regulary distributed plant to the plains 
+reg_abundant <- expand.grid(
+  x = seq(from = 25, to = 100, by = 12), 
+  y = seq(from = 25, to = 100, by = 12),
+  taxon = 'Regularis abundat'
+) 
+reg_abundant[,1:2] <- apply(reg_abundant[,1:2], MARGIN = 2, FUN = jitter, amount = 2) 
+reg_abundant <- st_as_sf(reg_abundant, coords = c('x',  'y'))
+
+reg_not_ab <- expand.grid(
+  x = seq(from = 25, to = 100, by = 27), 
+  y = seq(from = 25, to = 100, by = 27),
+  taxon = 'Regularis sparsum'
+) 
+reg_not_ab[,1:2] <- apply(reg_not_ab[,1:2], MARGIN = 2, FUN = jitter, amount = 5)
+reg_not_ab <- st_as_sf(reg_not_ab, coords = c('x',  'y'))
+
+
+############### several clumps ###################
+
+# several clumps  
+several_clumps <- data.frame(
+  x = c( 
+    rnorm(n = 10, mean = 20, sd = 7),
+    rnorm(n = 10, mean = 40, sd = 5), 
+    rnorm(n = 10, mean = 80, sd = 5)
+  ), 
+  y = c(
+    rnorm(n = 10, mean = 85, sd = 5), 
+    rnorm(n = 10, mean = 40, sd = 5), 
+    rnorm(n = 10, mean = 75, sd = 5)
+  ), 
+  taxon = 'Glomeratus multi' 
+) %>% 
+  st_as_sf(coords = c('x', 'y'))
+
+
+# remove any intersections of the bodies of water to the plants, we will 
+# ignore any emergent plants. 
+
+edge <- edge [ lengths(sf::st_intersects(edge, lacustrine)) < 1, ]
+banks <-  banks [ lengths(sf::st_intersects(banks, lacustrine)) < 1, ]
+edge_flipped <- edge_flipped [ lengths(sf::st_intersects(edge_flipped, lacustrine)) < 1, ]
+reg_abundant <- reg_abundant [ lengths(sf::st_intersects(reg_abundant, lacustrine)) < 1, ]
+reg_not_ab <- reg_not_ab [ lengths(sf::st_intersects(reg_not_ab, lacustrine)) < 1, ]
+
+several_clumps <- several_clumps[lengths(sf::st_intersects(several_clumps, lacustrine)) < 1, ]
+
+
+ggplot() + 
+  geom_raster(data = hills, aes(x = x, y = y, fill = z), interpolate = T) + 
+  geom_sf(data = lacustrine, fill = 'darkblue') + 
+  geom_sf(data = rivers, color = 'darkblue') + 
+  geom_sf(data = banks, color = 'green') + 
+  geom_sf(data = edge_flipped, color = 'orange') + 
+  geom_sf(data = edge, color = 'red') +  
+  geom_sf(data = reg_abundant, color = 'black') +  
+  geom_sf(data= several_clumps, color = 'pink') + 
+  
+  coord_sf(xlim = c(0, 100), ylim = c(0, 100)) + 
+  theme_minimal()
