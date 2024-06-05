@@ -377,7 +377,37 @@ knitr::include_graphics('../images/ExampleDataEntry.png')
 - FQA Values, Taft et al. 1997, downloaded from https://universalfqa.org/ which may have FQA values for your area too! 
 
 ```{r Prep data for analyses}
-cvals <- read.csv('../data/Taft1997FQA_Values.csv', skip = 11)
+cvals <- read.csv('../data/Taft1997FQA_Values.csv', skip = 11) %>% 
+  
+  # update some of the species names
+  
+  mutate(Scientific.Name = case_when(
+    Scientific.Name == 'Circaea lutetiana v. canadensis' ~ 'Circaea canadensis',
+    Scientific.Name == 'Polygonum pensylvanicum' ~ 'Persicaria pensylvanica',
+    Scientific.Name == 'Isopyrum biternatum' ~ 'Enemion biternatum',
+    Scientific.Name == 'Smilacina racemosa' ~ 'Maianthemum racemosum',
+    Scientific.Name == 'Aster shortii' ~ 'Symphyotrichum shortii', 
+    Scientific.Name == 'Aster sagittifolius' ~ 'Symphyotrichum urophyllum',
+    Scientific.Name == 'Eupatorium purpureum' ~ 'Eutrochium purpureum', 
+    .default = as.character(Scientific.Name)
+
+  ))
+
+data <- read.csv('../data/DataSheet.csv')
+data <- left_join(data, cvals, by = c('Species' = 'Scientific.Name')) %>% 
+  mutate(Species = str_trim(Species))
+
+c_vals <- data %>% 
+  group_by(Quadrat) %>% 
+  mutate(
+    Mcoc = mcoc(C), 
+    FQI = fqi(C),
+    Site = as.factor(Site),
+      ) %>% 
+  distinct(Site, Quadrat, .keep_all = T) %>% 
+  select(Site, Quadrat, Mcoc, FQI)
+
+rm(cvals, mcoc, fqi)
 ```
 
 ## Analysis 1 - Are we capturing a representative amount of the species diversity? 
@@ -393,9 +423,20 @@ cvals <- read.csv('../data/Taft1997FQA_Values.csv', skip = 11)
 <br>
 ```{r Estimating Species Richness of the two areas, out.width='95%'}
 
-data(ciliates)
+# we will create a list, each list will be a matrix of the species found
+# (rows), and the Plots they were sampled at (columns)
+to_rarify <- data %>% 
+  select(Site, Species, Quadrat) %>% 
+  mutate(Presence = 1)  %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = Species, values_from = Presence, values_fill = 0) %>% 
+  select(-Quadrat) %>% 
+  split(., f = .$Site) %>% 
+  purrr::map(., ~ select(., -Site))  %>% 
+  lapply(., as.matrix) %>% 
+  lapply(., t)
 
-rarified <- iNEXT(ciliates, q=0, datatype = "incidence_raw") 
+rarified <- iNEXT(to_rarify, q=0, datatype = "incidence_raw") 
 ggiNEXT(rarified, type=1, facet.var = "Assemblage") + 
   labs(
     title = 'Rarefaction curve of Species Richness',  
@@ -405,6 +446,8 @@ ggiNEXT(rarified, type=1, facet.var = "Assemblage") +
     legend.position = 'bottom',
      plot.title = element_text(hjust = 0.5),
      ) 
+
+rm(to_rarify, rarified)
 ```
 </div>
 </div>
@@ -432,7 +475,7 @@ tg <- ToothGrowth %>%
   filter(dose < 2) %>% 
   mutate(dose = as.factor(dose))
 
-fqi_p <- wilcox_test(tg, len ~ dose, paired = FALSE)
+fqi_p <- wilcox_test(tg, len ~ dose, paired = FALSE, conf.level = 0.1)
 fqi_r <- wilcox_effsize(tg, len ~ dose, paired = FALSE)
 
 meanC_p <- wilcox_test(tg, len ~ dose, paired = FALSE)
@@ -491,7 +534,8 @@ meanC  <- ggplot(tg, aes(x = dose, y = len, fill = dose)) +
 cowplot::plot_grid(fqi, meanC, 
                    labels = c('FQI', 'Mean C'), label_size = 12, ncol = 1)
 
-rm(fqi, fqi_p, fqi_r, meanC, meanC_p, meanC_r)
+rm(tg)
+rm(fqi, fqi_p, fqi_r, meanC, meanC_p, meanC_r, c_vals)
 ```
 </div> 
 
@@ -508,26 +552,29 @@ rm(fqi, fqi_p, fqi_r, meanC, meanC_p, meanC_r)
 <div style="float: right; width: 30%;"> 
 ```{r determine quadrat size for future monitoring}
 
-data.frame(
-  Species = rep(LETTERS[1:10], each = 12), 
-  Quadrat = rep(1:12, times = 10),
-  Nest = sample(0:4, size = 120, replace= T)
-) |>
+data |>
+  dplyr::filter(Nest <= 4) |>
+  dplyr::ungroup() |>
   dplyr::group_by(Species) |> 
   dplyr::count(Nest) |> # count how many times each species was found in a nest level
   dplyr::group_by(Species) |>
-  dplyr::mutate(n = n/12) |> # divide the number of observations by the number of plots sampled. . 
+  dplyr::mutate(n = n/9) |> # divide the number of observations by the number of plots sampled. . 
   filter(Nest > 0, n > 0.2 & n < 0.8) |> # we want the plants to show up in from 0.2-0.8 of nests. 
-  
+
   # if we have more than one Nest size which meets the standard, than let's choose 
   # the one closest to midpoint 0.5, allowing the plants to decrease or increase 
-  mutate(difference = if_else(n < 0.5, 0.5 - n, n - 0.5), 
+  dplyr::mutate(difference = dplyr::if_else(n < 0.5, 0.5 - n, n - 0.5), 
          n = round(n, digits = 2)) |>
-  slice_min(n = 1, order_by = difference, with_ties = F) |>
+  dplyr::slice_min(n = 1, order_by = difference, with_ties = F) |>
+  
+  # now just reduce number of species to a sensible amount for visualizing
+  dplyr::arrange(-n, Species) |> 
+  head(n = 5) |>
+  
   select(Species, Nest, Frequency = n) |>
   kableExtra::kbl() |>
   kableExtra::kable_classic(full_width = F, html_font = "Cambria")
-  
+
 ```
 </div>
 
@@ -536,6 +583,7 @@ data.frame(
 <div style="float: left; width: 70%;"> 
 - Some plots may have more similarities to plots at the other site  
 - This may indicate each site has pockets in similar states  
+- These sites are totally distinct in forb composition!!! 
 </div>
 
 ```{r transform nested data into quasi abundance data}
@@ -545,7 +593,7 @@ data.frame(
 
 quarter <- 0.25*0.25
 half <- (0.5*0.5) - quarter
-mid <- (1*1) - half -quarter
+mid <- (1*1) - half - quarter
 
 vals <- data.frame(
   quarter = 1/quarter, # species found here are 16 times more 'abundant' than those in largest quadrats
@@ -556,38 +604,44 @@ vals <- data.frame(
   t() %>% 
   data.frame() %>% 
   rownames_to_column() %>% 
-  setNames(., c('quadrat', 'constant')) 
+  setNames(., c('nest', 'constant')) 
 
-# for each quad level, divide by the number of species within it?? /
-quadrat = c('quarter', 'quarter', 'half', 'half', 'half', 'mid', 'mid', 'mid', 'full', 'full', 'full', 'full', 'full')
-df <- data.frame(
-  quadrat = quadrat, 
-  species = c(LETTERS[1:length(quadrat)])
-)
+df_ab <- data |>
+  select(Site, Quadrat, Nest, Species) |>
+  mutate(nest = case_when(
+    Nest == 1 ~ 'quarter', 
+    Nest == 2 ~ 'half', 
+    Nest == 3 ~ 'mid', 
+    Nest == 4 ~ 'full',
+    Nest == 5 ~ 'full'
+  )) 
 
-df <- left_join(df, vals)
-df$adjusted <- jitter( 
-  df$constant * 100 / 
-    sum(df$constant) # now make values add up to ~100 % for quasi cover comparision across plots. 
-  ) # we can't have ties, so jitter. 
+df_ab <- left_join(df_ab, vals) |>
+  group_by(Quadrat) |> 
+  mutate(QuasiAbundance = jitter( # we'll turn these into quasi abundances, and 
+    # jitter the values so we do not have any ties. 
+    constant / ( sum(constant) / 100)) )
 
-
+rm(quarter, half, mid, vals)
 ```
 
 ```{r Are the plots more similar to each other}
-community_matrix <- matrix(
-   sample(1:100,300,replace=T), nrow=10,
-   dimnames=list(paste("comm", 1:10, sep=""), paste("sp",1:30,sep="")))
+
+comm_mat <- select(df_ab, Species, Quadrat, QuasiAbundance) |>
+  pivot_wider(names_from = Species, values_from = QuasiAbundance, values_fill = 0) |>
+  ungroup() |>
+  select(-Quadrat) |>
+  as.matrix()
 
 example_NMDS <- vegan::metaMDS(
-  community_matrix,
+  comm_mat,
   k = 3, # The number of reduced dimensions, start with 2, and only work up if Shephard plot 
   # has considerable scatter around the line. 
   trymax = 500, # number of random start points, helps avoid seed effects. 
   trace = FALSE # do not print the details of the model fitting procedures. 
   ) 
 
-treat = c(rep("Upland",5), rep("Swamp",5))
+treat = c(rep("Upland",5), rep("Swamp",4))
 
 png(filename = '../images/NMDS.png', width = 175, height = 450, units = 'px')
 par(mfrow= c(3,1), mai = c(0.25, 0.5, 0.1, 0.1), pty = 's', 
@@ -606,6 +660,8 @@ orditorp(example_NMDS, display = "sites", col = c(rep("#fe7f2d",5), rep("#264653
 
 mtext("NMDS of Plots by Site", side = 3, outer = TRUE)
 invisible(dev.off())
+
+rm(comm_mat)
 ```
 
 <div style="float: right; width: 30%;"> 

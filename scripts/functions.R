@@ -5,3 +5,7 @@ poly_maker <- function(x){
     )
   )
 }
+
+mcoc <- function(x){sum(x)/length(x)} 
+
+fqi <- function(x){sum(x)/length(x) * sqrt(length(x))}
