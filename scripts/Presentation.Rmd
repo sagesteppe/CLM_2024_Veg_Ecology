@@ -404,7 +404,7 @@ c_vals <- data %>%
     FQI = fqi(C),
     Site = as.factor(Site),
       ) %>% 
-  distinct(Site, Quadrat, .keep_all = T) %>% 
+ # distinct(Site, Quadrat, .keep_all = T) %>% 
   select(Site, Quadrat, Mcoc, FQI)
 
 rm(cvals, mcoc, fqi)
@@ -463,11 +463,14 @@ rm(to_rarify, rarified)
 </div> 
 
 <div style="float: right; width: 40%;"> 
-<br>
-<br>
-<br>
-<br>
 ```{r Do the two areas differ?,  out.width='90%'}
+
+c_vals %>% 
+  ungroup() %>% 
+  group_by(Site) %>% 
+  summarize(MCoc = mean(Mcoc), 
+            FQI = mean(FQI)) %>% 
+  knitr::kable()
 
 ## Generate Box Plots of data and results  
 
