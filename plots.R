@@ -568,7 +568,7 @@ lacustrine <- data.frame(
   y = round(rnorm(n = 20, mean = 25, sd = 8)) 
 ) %>% 
   st_as_sf(coords = c('x', 'y')) %>% 
-  st_union() %>% 
+  st_union() %>% f
   st_convex_hull()
 
 rivers <- data.frame(

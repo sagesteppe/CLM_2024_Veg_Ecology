@@ -1,13 +1,29 @@
 ---
 title: "A very quick introduction to vegetation assessments"
 author: "Reed Benkendorf, Chris Woolridge"
-date: "June 5^th^ 2024"
-output:
-  ioslides_presentation:
-    widescreen: yes
-    logo: ../images/cbg_logo.jpg
-  slidy_presentation: default
-subtitle: Conservation & Land Mangement Training 2024
+date: "2024-June-5"
+date-format: long
+format: 
+  revealjs:
+    theme: black
+    highlight: pygments
+    preview-links: auto
+    logo: ./images/CBG_Logos/NegauneeInstitute_CBG-Logo-FlowerMark.png
+    chalkboard: 
+      boardmarker-width: 5
+    reveal_options:
+      width: 1920
+      height: 1080
+editor: 
+  markdown: 
+    wrap: 72
+include-in-header:
+  - text: |
+      <style>
+      #title-slide .title {
+        font-size: 1.5em;
+      }
+      </style>
 ---
 
 ```{r setup, include=FALSE}
@@ -28,7 +44,6 @@ set.seed(12) # to get similar results from runs of the NMDS analysis
 source('functions.R') # load a few small functions for processing the data. 
 ```
 
-
 ## Why do we monitor vegetation?  
 
 - Many plant species respond quickly to land management actions   
@@ -48,7 +63,7 @@ source('functions.R') # load a few small functions for processing the data.
 
 
 ## How do we measure plant absolute cover?
-<div style="float: left; width: 70%;"> 
+::: {style="float: left; width: 70%;"}
 - Depends on vegetation type, and annual climatic variability 
 
 - Forest  
@@ -60,28 +75,28 @@ source('functions.R') # load a few small functions for processing the data.
   - Grids with equal area cells  
   - most subjective of the methods  
   - complicated by time of sampling    
-</div>
+::: 
 
-<div style="float: right; width: 30%;"> 
+::: {style="float: right; width: 30%;"}
 <div class="centered">
 ```{r LPI & Line Intercept, out.width = "150px", out.height= "150px"}
-knitr::include_graphics('../images/AIM-plot.png')
+knitr::include_graphics('./images/AIM-plot.png')
 ```
 
 ```{r Daubenmire Frame, out.width = "150px", out.height= "150px"}
-knitr::include_graphics('../images/Daubenmire.png')
+knitr::include_graphics('./images/Daubenmire.png')
 ```
 
 ```{r Quadrat with cells, out.width = "150px", out.height= "150px"}
-knitr::include_graphics('../images/StandardQuadrat.png')
+knitr::include_graphics('./images/StandardQuadrat.png')
 ```
 
-</div>
 </div> 
+:::
 
 ## How do we measure plant abundance, frequency, and density? 
 
-<div style="float: left; width: 70%;"> 
+::: {style="float: left; width: 70%;"}
 - Belt Transects (abundance)  
   - plants are very sparse - pop. census size  
   - set up around LPI transects  
@@ -90,23 +105,23 @@ knitr::include_graphics('../images/StandardQuadrat.png')
   - Daubenmire frames also used  
 - Quadrats (density)  
   - plants are moderately abundant - pop. census size,  spatial distribution  
-</div>
+:::
 
-<div style="float: right; width: 30%;"> 
+::: {style="float: right; width: 30%;"}
 <div class="centered">
 ```{r Belt Transect, out.width = "100px", out.height= "200px"}
-knitr::include_graphics('../images/BeltTransect.png')
+knitr::include_graphics('./images/BeltTransect.png')
 ```
 
 ```{r Nested Quadrat, out.width = "225px", out.height= "225px"}
-knitr::include_graphics('../images/nested.png')
+knitr::include_graphics('./images/nested.png')
 ```
 </div>
-</div> 
+::: 
 
 ## How do we measure diversity? 
 
-<div style="float: left; width: 60%;"> 
+::: {style="float: left; width: 60%;"}
 - Can be done by wandering around areas... 
 - Quadrats   
   - Generally *much* larger than in other types of sampling  
@@ -116,15 +131,16 @@ knitr::include_graphics('../images/nested.png')
   - MW has two less intensive follow-up variants, the 'Intensive' and 'Extensive' 
   - I&E plots can characterize microhabitats (use determined via rarefaction)  
   - takes a long time... 
-</div>
+  
+:::
 
-<div style="float: right; width: 40%;" class = 'centered'> 
+::: {style="float: left; width: 40%;"}
 <center>
 ```{r Modified Whittaker Plot, out.width='95%'}
-knitr::include_graphics('../images/ModifiedWhittaker.png')
+knitr::include_graphics('./images/ModifiedWhittaker.png')
 ```
 </center>
-</div>
+:::
 
 ## What is a Floristic Quality Assessment? 
 <font size="4">
@@ -199,27 +215,29 @@ $$
 
 ## What do we mean by Species Richness?   
 
-<div style="float: left; width: 50%;"> 
+::: {style="float: left; width: 50%;"}
 - The number of plant taxa in an area; also referred to as $\gamma-\text{diversity}$  
 - Measuring it is time intensive, as many plants are locally rare  
 - Understanding progress of sampling via rarefaction   
-</div>
+:::
 
-<div style="float: right; width: 50%;"> 
+::: {style="float: right; width: 50%;"}
 - $\gamma-\text{diversity}$, and it's measurement, is influenced by:   
   - number of species per habitat ($\alpha-\text{diversity}$)    
   - turnover in species between habitats ($\beta-\text{diversity}$) 
-</div>
+  
+:::
+
 <div style="clear: both;"></div>
 
 <div class="centered">
 ```{r Create Diversity Representation, out.width = "700px", out.height= "250px"}
-knitr::include_graphics('../images/Diversity_Plot.png')
+knitr::include_graphics('./images/Diversity_Plot.png')
 ```
 </div>
 
 ## Reading Plots  
-<div style="float: left; width: 70%;"> 
+::: {style="float: left; width: 70%;"}
 - Boundary Decisions  
   - Are plants rooted in the plot? 
   - Which side of the plots are plant rooted in?  
@@ -230,38 +248,41 @@ knitr::include_graphics('../images/Diversity_Plot.png')
 - Avoiding double counting  
   - search methodically following a single direction  
   - Avoid trampling  
-- Search in 1/2m wide swaths  
-</div> 
+- Search in 1/2m wide swaths
 
-<div style="float: right; width: 30%;"> 
+::: 
+
+::: {style="float: right; width: 30%;"}
 <font size="4">
 ```{r Boundary Decisions, out.width = "350px", out.height= "350px", fig.cap='Colored areas are "In" a plot.'}
-knitr::include_graphics('../images/Nested-inOut.png')
+knitr::include_graphics('./images/Nested-inOut.png')
 ```
 </font>
-</div>
+:::
 <center>
+
+# Management Decisions 
 
 ## Management Decisions - Species Cover 
 
-<div style="float: left; width: 60%;"> 
+::: {style="float: left; width: 60%;"}
 - Cover of species naturally ebb and flow  
 - Certain management actions can increase cover of some species, while vastly decreasing cover of others  
 - Many of the decreasing species may be important for wildlife, or ecosystem function (e.g. water retention, soil stability)  
-</div>
+::: 
 
-<div style="float: right; width: 40%;"> 
+::: {style="float: right; width: 40%;"}
 <font size="4">
 ```{r Cattle Movement, out.width = "400px", out.height= "350px", fig.cap='Rotating cattle near Wisdom MT. *Agricultural Funders News*'}
-knitr::include_graphics('../images/AgriculturalFunderNews-WisdomMT.jpeg')
+knitr::include_graphics('./images/AgriculturalFunderNews-WisdomMT.jpeg')
 ```
 </font>
-</div>
+:::
 <center>
 
 ## Management Decisions - Vegetation Similarity 
 
-<div style="float: left; width: 70%;"> 
+::: {style="float: left; width: 70%;"}
 - If we want to *restore* an area, what is our target?  
   - Example: We may want X% absolute cover of broad leaved shrubs w/ < X% relative cover of species Y  
   - But *where* do we get these standards from?  
@@ -269,16 +290,16 @@ knitr::include_graphics('../images/AgriculturalFunderNews-WisdomMT.jpeg')
   - altered site should be able to produce a veg community similar to the reference   
 - Can we expect areas with similar vegetation to respond similarly to management actions?  
   - e.g. fire, grazing cattle/sheep/goats, removal of invasives?  
-  </div> 
   
-<div style="float: right; width: 30%;"> 
+:::
+  
+::: {style="float: right; width: 30%;"}
 <font size="4">
 ```{r Lanphere Dunes, out.width = "300px", out.height= "200px", fig.cap='Lanphere Dunes Preserve CA. Reference Site for Coastal backdunes in early seral state'}
-knitr::include_graphics('../images/Lanphere.jpg')
+knitr::include_graphics('./images/Lanphere.jpg')
 ```
 </font>
-</div>
-<center>
+:::
 
 ## Management Decisions - Species Richness
 
@@ -290,85 +311,88 @@ knitr::include_graphics('../images/Lanphere.jpg')
 
 ## Management Decisions - FQA  
 
-<div style="float: left; width: 60%;"> 
+::: {style="float: left; width: 60%;"}
 - Should areas with more remnant species be prioritized for active management? *and why* 
   - Some species cannot be 'added' back in via restoration  
   - These areas maybe managed to reduce further anthropogenic impacts, e.g. invasive removal, disallow certain recreation activities. 
   - Some areas with higher C-values likely to still harbor rare-species, impetus to survey. 
 
 - Use Mean C, or FQI to detect these areas.  
-</div>
+:::
 
-<div style="float: right; width: 40%;"> 
+::: {style="float: right; width: 40%;"}
 <font size="4">
 ```{r Spray Weeds, out.width = "400px", out.height= "350px", fig.cap='Spraying Weeds Kenai Fjords AK *National Park Service*'}
-knitr::include_graphics('../images/NPS_WeedTreatment.jpg')
+knitr::include_graphics('./images/NPS_WeedTreatment.jpg')
 ```
 </font>
-</div>
+::: 
 <center>
 
 ## A Usage Example  
 
-<div style="float: left; width: 60%;"> 
+::: {style="float: left; width: 60%;"}
 - See Benkendorf & Holsinger 2023  
 - Ca. 250 plots of opportunistic species richness data, collected over 5 years    
 - Ca. 860,000 acre area, use spatial statistics and regression techniques to identify features correlating with high FQI  
   - Decision: 
     - Do we restore areas at less than 7,000 feet? No, unless burned.  
-</div>
+    
+:::
 
-<div style="float: right; width: 40%;"> 
+::: {style="float: right; width: 40%;"}
 <center> 
 ```{r show UFO Plots,  out.width = "300px", out.height= "275px"}
-knitr::include_graphics('../images/FQI-plots.png')
+knitr::include_graphics('./images/FQI-plots.png')
 ```
 ```{r Show UFO Prediction, out.width = "300px", out.height= "275px"}
-knitr::include_graphics('../images/FQI-prediction.png')
+knitr::include_graphics('./images/FQI-prediction.png')
 ```
 </center>
-</div>
+:::
+
+# Field Activity
 
 ## Our activity for the early afternoon
 
-<div style="float: left; width: 70%;"> 
+::: {style="float: left; width: 70%;"}
 - Compare two different parts of McDonald Woods, Upland White Oak & Swamp White Oak 
 1) Assess how quadrats capture species richness   
 2) Do sites differ in their Mean C, FQI, or Wetland Indicator status?   
 3) Determine appropriate quadrat sizes for future monitoring  
 3) Consider similarity of microhabitats across sites  
-</div>
+:::
 
-<div style="float: right; width: 30%;"> 
+::: {style="float: right; width: 30%;"}
 ```{r Quad, out.height = '500px', out.width='375px'} 
-knitr::include_graphics('../images/FieldActivityQuad.png') 
+knitr::include_graphics('./images/FieldActivityQuad.png') 
 ```
-</div>
+::: 
 
 ## Methods 
 
-<div style="float: left; width: 70%;"> 
+::: {style="float: left; width: 70%;"}
 - Record all 'eudicot' plant species rooted in nest #1   
    - Move to nest #2 and record only the species not found in nest #1  
    - Continue to do this for all 4 nests   
 - After completing the nests, record all plant species not found in the nests, which are present in the final 1x1m square   
 - Each person should be able to read a plot once, each person should record  
 - DON'T WORRY ABOUT THE SPECIES IDs
-</div>
+:::
 
-<div style="float: right; width: 30%;"> 
+::: {style="float: left; width: 30%;"}
 <center>
 ```{r Showcase our Quadrat, out.height = '300px', out.width='250px'} 
-knitr::include_graphics('../images/FieldActivityQuad.png') 
+knitr::include_graphics('./images/FieldActivityQuad.png') 
 ```
 
 ```{r Example Data Entry, out.height = '200px', out.width='175px'} 
-knitr::include_graphics('../images/ExampleDataEntry.png') 
+knitr::include_graphics('./images/ExampleDataEntry.png') 
 ```
 </center>
-</div>
+:::
 
-## Analyses 
+# Analyses 
 
 - `r paste0('Carried out in ', R.version$version.string, ' on ', R.version$os)`  
 - **iNEXT** (Chao et al. 2014, Hsieh et al. 2024) for rarefaction, used to assess sampling completeness.   
@@ -377,7 +401,7 @@ knitr::include_graphics('../images/ExampleDataEntry.png')
 - FQA Values, Taft et al. 1997, downloaded from https://universalfqa.org/ which may have FQA values for your area too! 
 
 ```{r Prep data for analyses}
-cvals <- read.csv('../data/Taft1997FQA_Values.csv', skip = 11) %>% 
+cvals <- read.csv('./data/Taft1997FQA_Values.csv', skip = 11) %>% 
   
   # update some of the species names
   
@@ -393,7 +417,7 @@ cvals <- read.csv('../data/Taft1997FQA_Values.csv', skip = 11) %>%
 
   ))
 
-data <- read.csv('../data/DataSheet.csv')
+data <- read.csv('./data/DataSheet.csv')
 data <- left_join(data, cvals, by = c('Species' = 'Scientific.Name')) %>% 
   mutate(Species = str_trim(Species))
 
@@ -410,15 +434,15 @@ c_vals <- data %>%
 rm(cvals, mcoc, fqi)
 ```
 
-## Analysis 1 - Are we capturing a representative amount of the species diversity? 
+## 1 - Are we capturing a representative amount of the species diversity? 
 
-<div style="float: left; width: 60%;">  
+::: {style="float: left; width: 60%;"}
 - Not all species are equally common, and detection of locally rare species is difficult  
 - We can assess sampling completion using rarefaction, and random shuffling of plots  
 - If the number of species (Y axis), increase greatly via extrapolation, then we should sample more plots 
-</div>
+:::
 
-<div style="float: right; width: 40%;"> 
+::: {style="float: right; width: 40%;"}
 <br>
 <br>
 ```{r Estimating Species Richness of the two areas, out.width='95%'}
@@ -449,20 +473,20 @@ ggiNEXT(rarified, type=1, facet.var = "Assemblage") +
 
 rm(to_rarify, rarified)
 ```
-</div>
-</div>
 
-## Analysis 2 - Are the two sites notably different? 
+:::
 
-<div style="float: left; width: 60%;"> 
+## 2 - Are the two sites notably different? 
+
+::: {style="float: left; width: 60%;"}
 - FQI reflects the history of disturbance at a site, the sites disturbance histories vary  
 - Hypothesis: the *Swamp white Oak section* has less historic anthropogenic disturbance  
 - Null Hypothesis: the FQI of the two sites do not differ  
 - Two-sided Wilcoxon Signed Rank Test, data are unpaired   
 - Easy method: compare the central tendency of all quadrats per site
-</div> 
+::: 
 
-<div style="float: right; width: 40%;"> 
+::: {style="float: right; width: 64%;"}
 ```{r Do the two areas differ?,  out.width='90%'}
 
 c_vals %>% 
@@ -540,19 +564,19 @@ cowplot::plot_grid(fqi, meanC,
 rm(tg)
 rm(fqi, fqi_p, fqi_r, meanC, meanC_p, meanC_r, c_vals)
 ```
-</div> 
+:::
 
-## Analysis 3 - What Quadrat size can we use to determine frequency of indicator species? 
+## 3 - What Quadrat size can we use to determine frequency of indicator species? 
 
-<div style="float: left; width: 70%;"> 
+::: {style="float: left; width: 70%;"}
 - It can be difficult to determine the appropriate plot size for monitoring species  
 - Nests allow us to try different options readily  
 - For expedited monitoring carried out across large domains, finding an optimal size is important  
 - We want a species to show up in 20-80% of plots of various sizes  
 - our data are pilot data for future monitoring  
-</div> 
+:::
 
-<div style="float: right; width: 30%;"> 
+::: {style="float: left; width: 30%;"}
 ```{r determine quadrat size for future monitoring}
 
 data |>
@@ -579,15 +603,15 @@ data |>
   kableExtra::kable_classic(full_width = F, html_font = "Cambria")
 
 ```
-</div>
+:::
 
-## Analysis 4 - Are certain microhabits more similar *across* than between sites? 
+## 4 - Are certain microhabits more similar *across* than between sites? 
 
-<div style="float: left; width: 70%;"> 
+::: {style="float: left; width: 70%;"}
 - Some plots may have more similarities to plots at the other site  
 - This may indicate each site has pockets in similar states  
 - These sites are totally distinct in forb composition!!! 
-</div>
+:::
 
 ```{r transform nested data into quasi abundance data}
 
@@ -646,7 +670,7 @@ example_NMDS <- vegan::metaMDS(
 
 treat = c(rep("Upland",5), rep("Swamp",4))
 
-png(filename = '../images/NMDS.png', width = 175, height = 450, units = 'px')
+png(filename = './images/NMDS.png', width = 350, height = 900, units = 'px')
 par(mfrow= c(3,1), mai = c(0.25, 0.5, 0.1, 0.1), pty = 's', 
     oma = c(2, 0.5, 3, 0.5), bg = 'transparent')
 # the plots can be busy... let's build them up slowly... 
@@ -667,10 +691,8 @@ invisible(dev.off())
 rm(comm_mat)
 ```
 
-<div style="float: right; width: 30%;"> 
-<div class="centered">
-```{r Insert NMDS image, out.height = '450px', out.width='175px'} 
-knitr::include_graphics('../images/NMDS.png') 
+::: {style="float: left; width: 30%;"}
+```{r Insert NMDS image, out.height = '450px', out.width='250px'} 
+knitr::include_graphics('./images/NMDS.png') 
 ```
-</div>
-</div>
+:::
