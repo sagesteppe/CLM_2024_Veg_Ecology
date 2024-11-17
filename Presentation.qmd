@@ -14,6 +14,7 @@ format:
     reveal_options:
       width: 1920
       height: 1080
+    fontsize: 24pt
 editor: 
   markdown: 
     wrap: 72
@@ -104,19 +105,18 @@ knitr::include_graphics('./images/StandardQuadrat.png')
   - monitor multiple species simultaneously - spatial distribution / stability of populations  
   - Daubenmire frames also used  
 - Quadrats (density)  
-  - plants are moderately abundant - pop. census size,  spatial distribution  
+  - plants are moderately abundant - pop. census size,  spatial distribution
+  
 :::
 
 ::: {style="float: right; width: 30%;"}
-<div class="centered">
 ```{r Belt Transect, out.width = "100px", out.height= "200px"}
 knitr::include_graphics('./images/BeltTransect.png')
 ```
 
-```{r Nested Quadrat, out.width = "225px", out.height= "225px"}
+```{r Nested Quadrat, out.width = "400px", out.height= "400px"}
 knitr::include_graphics('./images/nested.png')
 ```
-</div>
 ::: 
 
 ## How do we measure diversity? 
@@ -136,7 +136,7 @@ knitr::include_graphics('./images/nested.png')
 
 ::: {style="float: left; width: 40%;"}
 <center>
-```{r Modified Whittaker Plot, out.width='95%'}
+```{r Modified Whittaker Plot, out.width='100%'}
 knitr::include_graphics('./images/ModifiedWhittaker.png')
 ```
 </center>
@@ -164,7 +164,7 @@ knitr::include_graphics('./images/ModifiedWhittaker.png')
 - Vary by each administrative unit they are generated for  
 - Reflect the *purpose* of monitoring  
 
-<font size="4">
+<font size="2">
 
 > _'... the coefficient applied to each taxon represents a rank based on observed
 behavior and patterns of occurrence in Illinois plant communities and our confidence that a taxon is remnant
@@ -231,7 +231,7 @@ $$
 <div style="clear: both;"></div>
 
 <div class="centered">
-```{r Create Diversity Representation, out.width = "700px", out.height= "250px"}
+```{r Create Diversity Representation, out.width = "800px", out.height= "500px"}
 knitr::include_graphics('./images/Diversity_Plot.png')
 ```
 </div>
@@ -254,7 +254,7 @@ knitr::include_graphics('./images/Diversity_Plot.png')
 
 ::: {style="float: right; width: 30%;"}
 <font size="4">
-```{r Boundary Decisions, out.width = "350px", out.height= "350px", fig.cap='Colored areas are "In" a plot.'}
+```{r Boundary Decisions, out.width = "350px", out.height= "500px", fig.cap='Colored areas are "In" a plot.'}
 knitr::include_graphics('./images/Nested-inOut.png')
 ```
 </font>
@@ -305,9 +305,9 @@ knitr::include_graphics('./images/Lanphere.jpg')
 
 - Ecosystem resilience often found to relate to the number of species in an area  
   - Loss of species may allow proliferation of invasive species  
-- $\alpha-\text{diversity}$ let's us know whether we have a good representation of native species at site  
-- $\beta-\text{diversity}$ let's us know that the site is not becoming more homogenous, i.e. breaking down  
-- $\gamma-\text{diversity}$ let's us know species can recruit from local areas back to more disturbed areas  
+- $\alpha-\text{diversity}$ whether we have a good representation of native species at site  
+- $\beta-\text{diversity}$ the site is not becoming more homogeneous, i.e. breaking down  
+- $\gamma-\text{diversity}$ species can recruit from local areas back to more disturbed areas  
 
 ## Management Decisions - FQA  
 
@@ -378,9 +378,10 @@ knitr::include_graphics('./images/FieldActivityQuad.png')
 - After completing the nests, record all plant species not found in the nests, which are present in the final 1x1m square   
 - Each person should be able to read a plot once, each person should record  
 - DON'T WORRY ABOUT THE SPECIES IDs
+
 :::
 
-::: {style="float: left; width: 30%;"}
+::: {style="float: right; width: 30%;"}
 <center>
 ```{r Showcase our Quadrat, out.height = '300px', out.width='250px'} 
 knitr::include_graphics('./images/FieldActivityQuad.png') 
@@ -442,9 +443,8 @@ rm(cvals, mcoc, fqi)
 - If the number of species (Y axis), increase greatly via extrapolation, then we should sample more plots 
 :::
 
-::: {style="float: right; width: 40%;"}
-<br>
-<br>
+::: {style="float: left; width: 40%;"}
+
 ```{r Estimating Species Richness of the two areas, out.width='95%'}
 
 # we will create a list, each list will be a matrix of the species found
@@ -486,14 +486,15 @@ rm(to_rarify, rarified)
 - Easy method: compare the central tendency of all quadrats per site
 ::: 
 
-::: {style="float: right; width: 64%;"}
-```{r Do the two areas differ?,  out.width='90%'}
+::: {style="float: right; width: 40%;"}
+```{r Do the two areas differ,  out.width='100%'}
 
 c_vals %>% 
   ungroup() %>% 
   group_by(Site) %>% 
   summarize(MCoc = mean(Mcoc), 
             FQI = mean(FQI)) %>% 
+  mutate(across(where(is.numeric), ~ round(., digits = 2))) %>%
   knitr::kable()
 
 ## Generate Box Plots of data and results  
@@ -566,7 +567,7 @@ rm(fqi, fqi_p, fqi_r, meanC, meanC_p, meanC_r, c_vals)
 ```
 :::
 
-## 3 - What Quadrat size can we use to determine frequency of indicator species? 
+## 3 - Which Quadrat size can we use to determine frequency of indicator species? 
 
 ::: {style="float: left; width: 70%;"}
 - It can be difficult to determine the appropriate plot size for monitoring species  
@@ -607,7 +608,7 @@ data |>
 
 ## 4 - Are certain microhabits more similar *across* than between sites? 
 
-::: {style="float: left; width: 70%;"}
+::: {style="float: left; width: 60%;"}
 - Some plots may have more similarities to plots at the other site  
 - This may indicate each site has pockets in similar states  
 - These sites are totally distinct in forb composition!!! 
@@ -691,7 +692,7 @@ invisible(dev.off())
 rm(comm_mat)
 ```
 
-::: {style="float: left; width: 30%;"}
+::: {style="float: left; width: 40%;"}
 ```{r Insert NMDS image, out.height = '450px', out.width='250px'} 
 knitr::include_graphics('./images/NMDS.png') 
 ```

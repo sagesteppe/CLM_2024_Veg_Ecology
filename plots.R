@@ -3,7 +3,7 @@ library(sf)
 library(patchwork)
 library(RColorBrewer)
 library(cowplot)
-setwd('~/Documents/assoRted/CLM_2024_Veg_Ecology/scripts')
+setwd('~/Documents/assoRted/CLM_2024_Veg_Ecology')
 
 ################################################################################
 ################            modified whittaker                  ################
@@ -69,9 +69,10 @@ mw <- ggplot() +
   scale_color_manual(
     values = c('#DA2C38', '#386150', '#58B09C', '#CAF7E2'), 
     labels = c('10 - 2 x 0.5m', '2 - 5 x 2m', '1 - 20 x 5m', '1 - 50 x 20m')
-  )
+  ) + 
+  theme(text = element_text(color = 'white'))
 
-ggsave('../images/ModifiedWhittaker.png')
+ggsave('./images/ModifiedWhittaker.png', height = 7, width = 4, units = 'in')
 
 rm(megaplot, mid, center, small, fake_legend)
 
@@ -108,10 +109,11 @@ nested <- ggplot()  +
   labs(x = NULL, y = NULL, title = 'Nested Quadrats') + 
   theme(
     plot.title = element_text(hjust = 0.5),
-  ) 
+  ) +
+  theme(text = element_text(color = 'white'))
 
 
-ggsave('../images/nested.png')
+ggsave('./images/nested.png')
 
 
 ################################################################################
@@ -164,10 +166,11 @@ ggplot()  +
   scale_color_manual(
     values = c('#ffbc42', '#ffbc42', '#d81159', '#d81159'), 
     labels = c('1/16', '1/4', '1/2', '1')
-  )
+  )+
+  theme(text = element_text(color = 'white'))
 
 
- ggsave('../images/Nested-inOut.png')
+ ggsave('./images/Nested-inOut.png')
 
 ################################################################################
 ################                OUR QUADRAT                  ###################
@@ -198,9 +201,10 @@ ggplot()  +
   labs(x = NULL, y = NULL, title = 'Quadrat for\nField Activity') + 
   theme(
     plot.title = element_text(hjust = 0.5),
-  ) 
+  )  + 
+  theme(text = element_text(color = 'white'))
 
-ggsave('../images/FieldActivityQuad.png', width = 4, height = 4.5, units = 'in')
+ggsave('./images/FieldActivityQuad.png', width = 4, height = 4.5, units = 'in')
 
 rm(nest1, nest2, nest3, nest4, quadrat, labels, nested, richness_lab)
 ################################################################################
@@ -222,9 +226,10 @@ ggplot() +
     labels = c('0m', '0.2m', '0.4m', '0.6m', '0.8m', '1m')) + 
   scale_x_continuous( 
     breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1), 
-    labels = c('0m', '0.2m', '0.4m', '0.6m', '0.8m', '1m')) 
+    labels = c('0m', '0.2m', '0.4m', '0.6m', '0.8m', '1m'))  + 
+  theme(text = element_text(color = 'white'))
 
-ggsave('../images/StandardQuadrat.png')
+ggsave('./images/StandardQuadrat.png')
 rm(plot1m, gr)
 
 ################################################################################
@@ -261,7 +266,8 @@ p <- ggplot() +
   scale_x_continuous( 
     breaks = c(0, 0.129, 0.2), 
     labels = c('0m', '0.129m', '0.2m')
-    ) 
+    )   + 
+  theme(text = element_text(color = 'white'))
 
 coverclasses <- data.frame(
   Class = c(1:6),
@@ -271,7 +277,7 @@ coverclasses <- data.frame(
 dobby <- p + 
   gridExtra::tableGrob(coverclasses, rows = NULL) 
 
-ggsave('../images/Daubenmire.png', dobby, width = 4, height = 6)
+ggsave('./images/Daubenmire.png', dobby, width = 4, height = 6)
 
 rm(lt, corner, dobby_lower, p, coverclasses, dobby)
 
@@ -300,13 +306,12 @@ ggplot() +
   labs(title = 'Belt\nTransect') +
   theme(
     plot.title = element_text(hjust = 0.5),
-  ) 
+  )   + 
+  theme(text = element_text(color = 'white'))
 
-ggsave('../images/BeltTransect.png')
+ggsave('./images/BeltTransect.png')
 
 rm(transect_center, belt)
-
-
 
 ################################################################################
 ###################               DIVERSITY               ######################
@@ -420,7 +425,8 @@ p <- ggplot(species, aes(fill = taxon, color = taxon, shape = taxon, x = x, y = 
   ) + 
   guides(
     fill = guide_legend(ncol = 3),
-    )
+    ) + 
+  theme(text = element_text(color = 'white'))
 
 legend <- cowplot::get_legend(p)
 rm(p)
@@ -443,7 +449,8 @@ plot_a <- ggplot(site_a) +
   theme(
     plot.title = element_text(hjust = 0.5), 
     legend.position = 'none'
-  )
+  )+ 
+  theme(text = element_text(color = 'white'))
 
 ## now create a third site 
 site_b <- filter(species, 
@@ -464,7 +471,8 @@ plot_b <- ggplot(site_b) +
   theme(
     plot.title = element_text(hjust = 0.5), 
     legend.position = 'none'
-  )
+  )+ 
+  theme(text = element_text(color = 'white'))
 
 site_c <- filter(species, !taxon %in% c('Glomeratus ipsum', 'Regularis sparsum'))
 
@@ -485,7 +493,8 @@ plot_c <- ggplot(site_c) +
   theme(
     plot.title = element_text(hjust = 0.5), 
     legend.position = 'none'
-  )
+  )+ 
+  theme(text = element_text(color = 'white'))
 
 plot_row <- plot_grid(plot_a, plot_b, plot_c, ncol = 3)
 plot_row <- plot_grid(plot_row, legend, ncol = 1, rel_heights = c(1, 0.2))
@@ -505,7 +514,8 @@ title <- ggdraw() +  # create a shared title for the plot with three Sites.
       " taxa) of an area with three major sites"),
     fontface = 'bold',
     x = 0,
-    hjust = 0.0
+    hjust = 0.0, 
+    color = 'white'
   ) +
   theme( # add margin on the left of the drawing canvas,
     # so title is aligned with left edge of first plot
@@ -552,7 +562,7 @@ DiversityGrid <- plot_grid(
 )
 
 
-save_plot(filename = '../images/Diversity_Plot.png', plot = DiversityGrid, 
+save_plot(filename = './images/Diversity_Plot.png', plot = DiversityGrid, 
           base_width = 8)
 
 rm(site_a, site_b, site_c, dark8, shapes, legend, beta_d_tab, beta_distances,

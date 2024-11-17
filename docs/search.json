@@ -1,0 +1,149 @@
+[
+  {
+    "objectID": "Presentation.html#why-do-we-monitor-vegetation",
+    "href": "Presentation.html#why-do-we-monitor-vegetation",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "Why do we monitor vegetation?",
+    "text": "Why do we monitor vegetation?\n\nMany plant species respond quickly to land management actions\n\nIndicators of whether an area is moving in a more-or-less desirable direction\nInform us whether a management action needs to be abandoned, increased, or maintained\n\nServe as the main constituent of habitat quality\n\nNote we will not cover demography today."
+  },
+  {
+    "objectID": "Presentation.html#what-variables-are-typically-monitored",
+    "href": "Presentation.html#what-variables-are-typically-monitored",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "What variables are typically monitored?",
+    "text": "What variables are typically monitored?\n\nAbsolute & Relative Cover How much of an area has vegetation? How is this cover composed by species and functional groups?\n\npreventing erosion, characterizing habitat.\n\nAbundance, Frequency, Density Are individual plants becoming patchier in areas? Is the population declining?\n\nAre actions too concentrated to microsites? Is a valuable resource declining?\n\n\nDiversity How many species are there? How are their abundances distributed? Is an area down to only a few species?\n\nOverall ecosystem integrity, assessing conservation priorities."
+  },
+  {
+    "objectID": "Presentation.html#how-do-we-measure-plant-absolute-cover",
+    "href": "Presentation.html#how-do-we-measure-plant-absolute-cover",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "How do we measure plant absolute cover?",
+    "text": "How do we measure plant absolute cover?\n\n\nDepends on vegetation type, and annual climatic variability\nForest\n\nLine Intercept\n\nGrassland & Savannah\n\nLine Intercept (LI) & Line-Point Intercept (LPI)\n\n(Historic) Daubenmire\n\n\nSmall plants!\n\nGrids with equal area cells\n\nmost subjective of the methods\n\ncomplicated by time of sampling"
+  },
+  {
+    "objectID": "Presentation.html#how-do-we-measure-plant-abundance-frequency-and-density",
+    "href": "Presentation.html#how-do-we-measure-plant-abundance-frequency-and-density",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "How do we measure plant abundance, frequency, and density?",
+    "text": "How do we measure plant abundance, frequency, and density?\n\n\nBelt Transects (abundance)\n\nplants are very sparse - pop. census size\n\nset up around LPI transects\n\n\nNested Quadrats (frequency)\n\nmonitor multiple species simultaneously - spatial distribution / stability of populations\n\nDaubenmire frames also used\n\n\nQuadrats (density)\n\nplants are moderately abundant - pop. census size, spatial distribution"
+  },
+  {
+    "objectID": "Presentation.html#how-do-we-measure-diversity",
+    "href": "Presentation.html#how-do-we-measure-diversity",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "How do we measure diversity?",
+    "text": "How do we measure diversity?\n\n\nCan be done by wandering around areas…\nQuadrats\n\nGenerally much larger than in other types of sampling\n\nFewer replicates\n\n\nOriented to follow environmental gradients\n\nThe gold standard: Modified Whittaker\n\nMW has two less intensive follow-up variants, the ‘Intensive’ and ‘Extensive’\nI&E plots can characterize microhabitats (use determined via rarefaction)\n\ntakes a long time…"
+  },
+  {
+    "objectID": "Presentation.html#what-is-a-floristic-quality-assessment",
+    "href": "Presentation.html#what-is-a-floristic-quality-assessment",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "What is a Floristic Quality Assessment?",
+    "text": "What is a Floristic Quality Assessment?\n\n\n‘… tolerance of anthropogenic disturbance and exclusivity to remnant habitats are the only validated criteria for deﬁning FQA.’\n\n\n‘…FQA conveys two things about high conservative species: (1) All else being equal, they have greater conservation value, and (2) they reﬂect a site’s history of minimal disturbance and degradation.’\n\n— Spyreas 2019\n\n\n\n\nDifferent species and sites have different tolerances to recovery after anthropogenic disturbances\n\nUseful for identifying high-quality remnant habitat\n\nEssentially a format for prioritizing land management decisions, especially active management\nWe know we cannot restore everywhere, preventing degradation is key, we can shift certain activities to areas of less conservation values"
+  },
+  {
+    "objectID": "Presentation.html#what-do-c-values-mean",
+    "href": "Presentation.html#what-do-c-values-mean",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "What do C-values mean?",
+    "text": "What do C-values mean?\n\nVary by each administrative unit they are generated for\n\nReflect the purpose of monitoring\n\n\n\n’… the coefficient applied to each taxon represents a rank based on observed behavior and patterns of occurrence in Illinois plant communities and our confidence that a taxon is remnant (natural area) dependent.\n\n\nSpecies given a C value of 0-1 are taxa adapted to severe disturbances, particularly anthropogenic disturbances…\n\n\nSpecies with a C value of 2-3 are associated with somewhat more stable, though degraded, environments.\n\n\nSpecies with coefficients 4-6 include many dominant or matrix species for several habitats; they have a high consistency of occurrence within given community types.\n\n\nSpecies with C values 7-8 are taxa we associate mostly with natural areas, but that can be found persisting where the habitat has been degraded somewhat.\n\n\nSpecies with coefficients 9-10 are considered to be restricted to high-quality natural areas.’\n\n\n— Taft et al. 1997"
+  },
+  {
+    "objectID": "Presentation.html#calculations",
+    "href": "Presentation.html#calculations",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "Calculations",
+    "text": "Calculations\nMean Coefficient of Conservatism \\[\n\\overline{C} = \\frac{\\sum{} C_i}{S}\n\\] \n\n\n\\(C_i\\) in particular \\(C\\) is the Conservatism Value (C-Value), for each \\(_i\\) of the \\(S\\) at the site\n\n\\(S\\) is the number of species included in the calculation\n\n\\(\\overline{C}\\) is the Mean Coefficient of Conservatism, or for short Mean C\n\n\\(\\sum{}\\) is an operator, meaning that we will sum all C-Values, \\(C\\)\n\n\n\n\n\nFloristic Quality Index \\[\nFQI = \\overline{C} * \\sqrt{S}\n\\] \n\n\n\\(\\overline{C}\\) is the Mean Coefficient of Conservatism, or for short Mean C\n\n\\(\\sqrt{S}\\) is the square root of the number of species included in the calculation"
+  },
+  {
+    "objectID": "Presentation.html#what-do-we-mean-by-species-richness",
+    "href": "Presentation.html#what-do-we-mean-by-species-richness",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "What do we mean by Species Richness?",
+    "text": "What do we mean by Species Richness?\n\n\nThe number of plant taxa in an area; also referred to as \\(\\gamma-\\text{diversity}\\)\n\nMeasuring it is time intensive, as many plants are locally rare\n\nUnderstanding progress of sampling via rarefaction\n\n\n\n\n\n\\(\\gamma-\\text{diversity}\\), and it’s measurement, is influenced by:\n\nnumber of species per habitat (\\(\\alpha-\\text{diversity}\\))\n\nturnover in species between habitats (\\(\\beta-\\text{diversity}\\))"
+  },
+  {
+    "objectID": "Presentation.html#reading-plots",
+    "href": "Presentation.html#reading-plots",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "Reading Plots",
+    "text": "Reading Plots\n\n\nBoundary Decisions\n\nAre plants rooted in the plot?\nWhich side of the plots are plant rooted in?\n\n\nOrder to reading?\n\nNested quadrats go from smallest to largest plot\n\nOnly record new species along the way\n\nIf same species is present in ‘2’ as in ‘1’ do not record.\n\n\n\nAvoiding double counting\n\nsearch methodically following a single direction\n\nAvoid trampling\n\n\nSearch in 1/2m wide swaths\n\n\n\n\n\n\n\n\n\nColored areas are “In” a plot."
+  },
+  {
+    "objectID": "Presentation.html#management-decisions---species-cover",
+    "href": "Presentation.html#management-decisions---species-cover",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "Management Decisions - Species Cover",
+    "text": "Management Decisions - Species Cover\n\n\nCover of species naturally ebb and flow\n\nCertain management actions can increase cover of some species, while vastly decreasing cover of others\n\nMany of the decreasing species may be important for wildlife, or ecosystem function (e.g. water retention, soil stability)\n\n\n\n\n\n\n\n\n\n\nRotating cattle near Wisdom MT. Agricultural Funders News"
+  },
+  {
+    "objectID": "Presentation.html#management-decisions---vegetation-similarity",
+    "href": "Presentation.html#management-decisions---vegetation-similarity",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "Management Decisions - Vegetation Similarity",
+    "text": "Management Decisions - Vegetation Similarity\n\n\nIf we want to restore an area, what is our target?\n\nExample: We may want X% absolute cover of broad leaved shrubs w/ &lt; X% relative cover of species Y\n\nBut where do we get these standards from?\n\n\nReference site, an area with similar soils & climate to our site\n\naltered site should be able to produce a veg community similar to the reference\n\n\nCan we expect areas with similar vegetation to respond similarly to management actions?\n\ne.g. fire, grazing cattle/sheep/goats, removal of invasives?\n\n\n\n\n\n\n\n\n\n\nLanphere Dunes Preserve CA. Reference Site for Coastal backdunes in early seral state"
+  },
+  {
+    "objectID": "Presentation.html#management-decisions---species-richness",
+    "href": "Presentation.html#management-decisions---species-richness",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "Management Decisions - Species Richness",
+    "text": "Management Decisions - Species Richness\n\nEcosystem resilience often found to relate to the number of species in an area\n\nLoss of species may allow proliferation of invasive species\n\n\n\\(\\alpha-\\text{diversity}\\) whether we have a good representation of native species at site\n\n\\(\\beta-\\text{diversity}\\) the site is not becoming more homogeneous, i.e. breaking down\n\n\\(\\gamma-\\text{diversity}\\) species can recruit from local areas back to more disturbed areas"
+  },
+  {
+    "objectID": "Presentation.html#management-decisions---fqa",
+    "href": "Presentation.html#management-decisions---fqa",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "Management Decisions - FQA",
+    "text": "Management Decisions - FQA\n\n\nShould areas with more remnant species be prioritized for active management? and why\n\nSome species cannot be ‘added’ back in via restoration\n\nThese areas maybe managed to reduce further anthropogenic impacts, e.g. invasive removal, disallow certain recreation activities.\nSome areas with higher C-values likely to still harbor rare-species, impetus to survey.\n\nUse Mean C, or FQI to detect these areas.\n\n\n\n\n\n\n\n\n\n\nSpraying Weeds Kenai Fjords AK National Park Service"
+  },
+  {
+    "objectID": "Presentation.html#a-usage-example",
+    "href": "Presentation.html#a-usage-example",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "A Usage Example",
+    "text": "A Usage Example\n\n\nSee Benkendorf & Holsinger 2023\n\nCa. 250 plots of opportunistic species richness data, collected over 5 years\n\nCa. 860,000 acre area, use spatial statistics and regression techniques to identify features correlating with high FQI\n\nDecision:\n\nDo we restore areas at less than 7,000 feet? No, unless burned."
+  },
+  {
+    "objectID": "Presentation.html#our-activity-for-the-early-afternoon",
+    "href": "Presentation.html#our-activity-for-the-early-afternoon",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "Our activity for the early afternoon",
+    "text": "Our activity for the early afternoon\n\n\nCompare two different parts of McDonald Woods, Upland White Oak & Swamp White Oak\n\n\nAssess how quadrats capture species richness\n\nDo sites differ in their Mean C, FQI, or Wetland Indicator status?\n\nDetermine appropriate quadrat sizes for future monitoring\n\nConsider similarity of microhabitats across sites"
+  },
+  {
+    "objectID": "Presentation.html#methods",
+    "href": "Presentation.html#methods",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "Methods",
+    "text": "Methods\n\n\nRecord all ‘eudicot’ plant species rooted in nest #1\n\nMove to nest #2 and record only the species not found in nest #1\n\nContinue to do this for all 4 nests\n\n\nAfter completing the nests, record all plant species not found in the nests, which are present in the final 1x1m square\n\nEach person should be able to read a plot once, each person should record\n\nDON’T WORRY ABOUT THE SPECIES IDs"
+  },
+  {
+    "objectID": "Presentation.html#are-we-capturing-a-representative-amount-of-the-species-diversity",
+    "href": "Presentation.html#are-we-capturing-a-representative-amount-of-the-species-diversity",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "1 - Are we capturing a representative amount of the species diversity?",
+    "text": "1 - Are we capturing a representative amount of the species diversity?\n\n\nNot all species are equally common, and detection of locally rare species is difficult\n\nWe can assess sampling completion using rarefaction, and random shuffling of plots\n\nIf the number of species (Y axis), increase greatly via extrapolation, then we should sample more plots"
+  },
+  {
+    "objectID": "Presentation.html#are-the-two-sites-notably-different",
+    "href": "Presentation.html#are-the-two-sites-notably-different",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "2 - Are the two sites notably different?",
+    "text": "2 - Are the two sites notably different?\n\n\nFQI reflects the history of disturbance at a site, the sites disturbance histories vary\n\nHypothesis: the Swamp white Oak section has less historic anthropogenic disturbance\n\nNull Hypothesis: the FQI of the two sites do not differ\n\nTwo-sided Wilcoxon Signed Rank Test, data are unpaired\n\nEasy method: compare the central tendency of all quadrats per site\n\n\n\n\n\n\n\n\nSite\nMCoc\nFQI\n\n\n\n\nUpland White Oak\n3.68\n13.77\n\n\nSwamp White Oak\n2.23\n7.84"
+  },
+  {
+    "objectID": "Presentation.html#which-quadrat-size-can-we-use-to-determine-frequency-of-indicator-species",
+    "href": "Presentation.html#which-quadrat-size-can-we-use-to-determine-frequency-of-indicator-species",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "3 - Which Quadrat size can we use to determine frequency of indicator species?",
+    "text": "3 - Which Quadrat size can we use to determine frequency of indicator species?\n\n\nIt can be difficult to determine the appropriate plot size for monitoring species\n\nNests allow us to try different options readily\n\nFor expedited monitoring carried out across large domains, finding an optimal size is important\n\nWe want a species to show up in 20-80% of plots of various sizes\n\nour data are pilot data for future monitoring\n\n\n\n\n\n\n\n\n\nSpecies\nNest\nFrequency\n\n\n\n\nCircaea canadensis\n1\n0.44\n\n\nSolidago canadensis\n2\n0.44\n\n\nTaraxacum officinale\n1\n0.44\n\n\nGeranium maculatum\n1\n0.33\n\n\nHydrophyllum virginianum\n1\n0.33"
+  },
+  {
+    "objectID": "Presentation.html#are-certain-microhabits-more-similar-across-than-between-sites",
+    "href": "Presentation.html#are-certain-microhabits-more-similar-across-than-between-sites",
+    "title": "A very quick introduction to vegetation assessments",
+    "section": "4 - Are certain microhabits more similar across than between sites?",
+    "text": "4 - Are certain microhabits more similar across than between sites?\n\n\nSome plots may have more similarities to plots at the other site\n\nThis may indicate each site has pockets in similar states\n\nThese sites are totally distinct in forb composition!!!"
+  }
+]
